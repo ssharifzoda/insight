@@ -1,0 +1,19 @@
+server:
+  port: "5005"
+
+db:
+  port: 5432
+  host: "localhost"
+  dbName: "green"
+  username: "green"
+
+job:
+  passJobTime: 10
+
+mail:
+  host: "smtp.gmail.com"
+  port: 465
+  username: ""
+  password: ""
+  address: ""
+
