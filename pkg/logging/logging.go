@@ -1,4 +1,4 @@
-package logging
+1package logging
 
 import (
 	"fmt"
