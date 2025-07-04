@@ -31,9 +31,13 @@ func (h *Handler) InitRoutes() *mux.Router {
 	authGr.HandleFunc("/refresh-token", h.refreshToken).Methods(http.MethodPost, http.MethodOptions)
 	authGr.HandleFunc("/log-out", h.logoutHandler).Methods(http.MethodPut, http.MethodOptions)
 	//Console
-	consoleGr := router.PathPrefix("/console")
+	consoleGr := router.PathPrefix("/home")
 	//Workers
-	employeeGr := router.PathPrefix("/employees")
+	employeeGr := router.PathPrefix("/workers").Subrouter()
+	employeeGr.HandleFunc("/list", h.getAllWorkers).Methods(http.MethodGet, http.MethodOptions)
+	employeeGr.HandleFunc("/by-id", h.getWorkerById).Methods(http.MethodGet, http.MethodOptions)
+	employeeGr.HandleFunc("/edit", h.editWorker).Methods(http.MethodPut, http.MethodOptions)
+	employeeGr.HandleFunc("/rm", h.deleteWorker).Methods(http.MethodDelete, http.MethodOptions)
 	//Shops
 	shopGr := router.PathPrefix("/shops")
 	//Supplier
@@ -45,7 +49,39 @@ func (h *Handler) InitRoutes() *mux.Router {
 	//Notification
 	notificationsGr := router.PathPrefix("/notifications")
 	//Setting
-	settingsGr := router.PathPrefix("/settings")
+	settingsGr := router.PathPrefix("/settings").Subrouter()
+	settingsGr.HandleFunc("/brands", h.addBrand).Methods(http.MethodPost, http.MethodOptions)
+	settingsGr.HandleFunc("/brands", h.getAllBrands).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/brands", h.editBrand).Methods(http.MethodPut, http.MethodOptions)
+	settingsGr.HandleFunc("/brands", h.deleteBrand).Methods(http.MethodDelete, http.MethodOptions)
+	settingsGr.HandleFunc("/categories", h.addNewCategory).Methods(http.MethodPost, http.MethodOptions)
+	settingsGr.HandleFunc("/categories", h.getAllCategories).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/categories", h.editCategory).Methods(http.MethodPut, http.MethodOptions)
+	settingsGr.HandleFunc("/categories", h.deleteCategory).Methods(http.MethodDelete, http.MethodOptions)
+	settingsGr.HandleFunc("/cities", h.addNewCity).Methods(http.MethodPost, http.MethodOptions)
+	settingsGr.HandleFunc("/cities", h.getAllCities).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/cities", h.editCity).Methods(http.MethodPut, http.MethodOptions)
+	settingsGr.HandleFunc("/cities", h.deleteCity).Methods(http.MethodDelete, http.MethodOptions)
+	settingsGr.HandleFunc("/sale-points", h.addNewPoint).Methods(http.MethodPost, http.MethodOptions)
+	settingsGr.HandleFunc("/sale-points", h.getAllPoints).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/sale-points", h.editSalePoint).Methods(http.MethodPut, http.MethodOptions)
+	settingsGr.HandleFunc("/sale-points", h.deletePoint).Methods(http.MethodDelete, http.MethodOptions)
+	settingsGr.HandleFunc("/promotions", h.addNewPromotion).Methods(http.MethodPost, http.MethodOptions)
+	settingsGr.HandleFunc("/promotions", h.getAllPromotions).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/promotion", h.getPromotionById).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/promotions", h.editPromotion).Methods(http.MethodPut, http.MethodOptions)
+	settingsGr.HandleFunc("/promotions", h.deletePromotion).Methods(http.MethodDelete, http.MethodOptions)
+	settingsGr.HandleFunc("/faq", h.addNewFaq).Methods(http.MethodPost, http.MethodOptions)
+	settingsGr.HandleFunc("/faq", h.getFaqById).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/faq-all", h.getAllFaq).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/faq", h.editFaq).Methods(http.MethodPut, http.MethodOptions)
+	settingsGr.HandleFunc("/faq", h.deleteFaq).Methods(http.MethodDelete, http.MethodOptions)
+	settingsGr.HandleFunc("/roles", h.addNewRole).Methods(http.MethodPost, http.MethodOptions)
+	settingsGr.HandleFunc("/roles", h.getAllRoles).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/role", h.getRoleById).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/roles", h.editRoleById).Methods(http.MethodPut, http.MethodOptions)
+	settingsGr.HandleFunc("/roles", h.deleteRole).Methods(http.MethodDelete, http.MethodOptions)
+	settingsGr.HandleFunc("/permissions", h.getAllPermissions).Methods(http.MethodGet, http.MethodOptions)
 
 	return router
 }
