@@ -5,6 +5,7 @@ import (
 	_ "github.com/swaggo/http-swagger"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"insight/internal/service"
+	"insight/pkg/logging"
 	"net/http"
 )
 
