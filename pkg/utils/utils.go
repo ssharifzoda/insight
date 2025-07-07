@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/viper"
-	"green/internal/models"
 	"io"
 	"log"
 	"net/http"
@@ -15,7 +14,8 @@ import (
 )
 
 type response struct {
-	Message interface{} `json:"message"`
+	Message   interface{} `json:"message"`
+	ErrorCode int         `json:"error_code,omitempty"`
 }
 
 func InitConfig() error {
@@ -24,8 +24,8 @@ func InitConfig() error {
 	return viper.ReadInConfig()
 }
 
-func ErrorResponse(w http.ResponseWriter, err error, statusCode, errorCode int) {
-	message := models.ErrorResponse{Error: err.Error(), ErrorCode: errorCode}
+func ErrorResponse(w http.ResponseWriter, errorDesc string, statusCode, errorCode int) {
+	message := response{Message: errorDesc, ErrorCode: errorCode}
 	data, err := json.Marshal(message)
 	if err != nil {
 		log.Println(err)

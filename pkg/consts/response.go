@@ -4,7 +4,7 @@ const (
 	CountErrResponse           = "Задайте количество записей"
 	PageErrResponse            = "Задайте страницу"
 	InvalidDigitalParams       = "Только цифры"
-	InvalidCropParams          = "Укажите идентификатор культуры"
+	InvalidBrandId             = "Укажите идентификатор бренда"
 	InvalidIdentificationParam = "Идентификатором поиска служат только цифры"
 	InvalidRequestData         = "Проверьте правильность данных"
 	UsernameAlreadyExists      = "Пользователь с таким логином уже существует"
