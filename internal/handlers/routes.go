@@ -35,20 +35,48 @@ func (h *Handler) InitRoutes() *mux.Router {
 	consoleGr := router.PathPrefix("/home")
 	//Workers
 	employeeGr := router.PathPrefix("/workers").Subrouter()
+	employeeGr.HandleFunc("/new", h.addNewEmployee)
 	employeeGr.HandleFunc("/list", h.getAllWorkers).Methods(http.MethodGet, http.MethodOptions)
 	employeeGr.HandleFunc("/by-id", h.getWorkerById).Methods(http.MethodGet, http.MethodOptions)
 	employeeGr.HandleFunc("/edit", h.editWorker).Methods(http.MethodPut, http.MethodOptions)
 	employeeGr.HandleFunc("/rm", h.deleteWorker).Methods(http.MethodDelete, http.MethodOptions)
 	//Shops
-	shopGr := router.PathPrefix("/shops")
+	shopGr := router.PathPrefix("/shops").Subrouter()
+	shopGr.HandleFunc("/new", h.addNewShop).Methods(http.MethodPost, http.MethodOptions)
+	shopGr.HandleFunc("/list", h.getAllShops).Methods(http.MethodGet, http.MethodOptions)
+	shopGr.HandleFunc("/by-id", h.getShop).Methods(http.MethodGet, http.MethodOptions)
+	shopGr.HandleFunc("/rm", h.deleteShop).Methods(http.MethodDelete, http.MethodOptions)
+	shopGr.HandleFunc("/edit", h.editShop).Methods(http.MethodPut, http.MethodOptions)
 	//Supplier
-	supplierGr := router.PathPrefix("/suppliers")
+	supplierGr := router.PathPrefix("/suppliers").Subrouter()
+	supplierGr.HandleFunc("/new", h.addNewSupplier).Methods(http.MethodPost, http.MethodOptions)
+	supplierGr.HandleFunc("/list", h.getAllSuppliers).Methods(http.MethodGet, http.MethodOptions)
+	supplierGr.HandleFunc("/by-id", h.getSupplier).Methods(http.MethodGet, http.MethodOptions)
+	supplierGr.HandleFunc("/rm", h.deleteSupplier).Methods(http.MethodDelete, http.MethodOptions)
+	supplierGr.HandleFunc("/edit", h.editSupplier).Methods(http.MethodPut, http.MethodOptions)
 	//Application
-	applicationGr := router.PathPrefix("/applications")
+	ordersGr := router.PathPrefix("/orders").Subrouter()
+	ordersGr.HandleFunc("/create", h.createOrder).Methods(http.MethodPost, http.MethodOptions)
+	ordersGr.HandleFunc("/list", h.getAllOrders).Methods(http.MethodGet, http.MethodOptions)
+	ordersGr.HandleFunc("/by-id", h.getOrderById).Methods(http.MethodGet, http.MethodOptions)
+	ordersGr.HandleFunc("/edit", h.editOrder).Methods(http.MethodPut, http.MethodOptions)
+	ordersGr.HandleFunc("/rm", h.deleteOrder).Methods(http.MethodDelete, http.MethodOptions)
+	ordersGr.HandleFunc("/list-pdf", h.downloadOrdersPdf).Methods(http.MethodGet, http.MethodOptions)
 	//Product
-	productsGr := router.PathPrefix("/products")
+	productsGr := router.PathPrefix("/products").Subrouter()
+	productsGr.HandleFunc("/new", h.addNewProduct)
+	productsGr.HandleFunc("/list", h.getAllProducts).Methods(http.MethodGet, http.MethodOptions)
+	productsGr.HandleFunc("/by-id", h.getProduct).Methods(http.MethodGet, http.MethodOptions)
+	productsGr.HandleFunc("/edit", h.editProduct).Methods(http.MethodPut, http.MethodOptions)
+	productsGr.HandleFunc("/rm", h.deleteProduct).Methods(http.MethodDelete, http.MethodOptions)
+
 	//Notification
-	notificationsGr := router.PathPrefix("/notifications")
+	notificationsGr := router.PathPrefix("/notifications").Subrouter()
+	notificationsGr.HandleFunc("/new", h.addNewNotification)
+	notificationsGr.HandleFunc("/list", h.getAllNotifications).Methods(http.MethodGet, http.MethodOptions)
+	notificationsGr.HandleFunc("/by-id", h.getNotification).Methods(http.MethodGet, http.MethodOptions)
+	notificationsGr.HandleFunc("/edit", h.editNotification).Methods(http.MethodPut, http.MethodOptions) //todo: здесь же просмотр либо отдельный роут
+	notificationsGr.HandleFunc("/rm", h.deleteNotification).Methods(http.MethodDelete, http.MethodOptions)
 	//Setting
 	settingsGr := router.PathPrefix("/settings").Subrouter()
 	settingsGr.HandleFunc("/brands", h.addBrand).Methods(http.MethodPost, http.MethodOptions)
