@@ -11,6 +11,7 @@ import (
 )
 
 // @Summary addBrand
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Добавление бренда
 // @ID addBrand
@@ -40,6 +41,7 @@ func (h *Handler) addBrand(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary getAllBrands
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Просмотр всех брендов
 // @ID getAllBrands
@@ -77,6 +79,7 @@ func (h *Handler) getAllBrands(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary editBrand
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Изменение бренда
 // @ID editBrand
@@ -106,6 +109,7 @@ func (h *Handler) editBrand(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary deleteBrand
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Удаление бренда
 // @ID deleteBrand
@@ -135,6 +139,7 @@ func (h *Handler) deleteBrand(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary addNewCategory
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Добавление категории
 // @ID addNewCategory
@@ -164,6 +169,7 @@ func (h *Handler) addNewCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary getAllCategories
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Просмотр всех категорий
 // @ID getAllCategories
@@ -201,6 +207,7 @@ func (h *Handler) getAllCategories(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary editCategory
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Редактирование категории
 // @ID editCategory
@@ -230,6 +237,7 @@ func (h *Handler) editCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary deleteCategory
+// @Security ApiKeyAuth
 // @Tags Settings
 // @Description Удаление категории
 // @ID deleteCategory

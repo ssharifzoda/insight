@@ -34,12 +34,13 @@ func (h *Handler) InitRoutes() *mux.Router {
 	//Console
 	consoleGr := router.PathPrefix("/home")
 	//Workers
-	employeeGr := router.PathPrefix("/workers").Subrouter()
-	employeeGr.HandleFunc("/new", h.addNewEmployee)
-	employeeGr.HandleFunc("/list", h.getAllWorkers).Methods(http.MethodGet, http.MethodOptions)
-	employeeGr.HandleFunc("/by-id", h.getWorkerById).Methods(http.MethodGet, http.MethodOptions)
-	employeeGr.HandleFunc("/edit", h.editWorker).Methods(http.MethodPut, http.MethodOptions)
-	employeeGr.HandleFunc("/rm", h.deleteWorker).Methods(http.MethodDelete, http.MethodOptions)
+	usersGr := router.PathPrefix("/users").Subrouter()
+	usersGr.HandleFunc("/new", h.addNewUser)
+	usersGr.HandleFunc("/list", h.getAllUsers).Methods(http.MethodGet, http.MethodOptions)
+	usersGr.HandleFunc("/by-id", h.getUserById).Methods(http.MethodGet, http.MethodOptions)
+	usersGr.HandleFunc("/me", h.getMe).Methods(http.MethodGet, http.MethodOptions)
+	usersGr.HandleFunc("/edit", h.editUser).Methods(http.MethodPut, http.MethodOptions)
+	usersGr.HandleFunc("/rm", h.deleteUser).Methods(http.MethodDelete, http.MethodOptions)
 	//Shops
 	shopGr := router.PathPrefix("/shops").Subrouter()
 	shopGr.HandleFunc("/new", h.addNewShop).Methods(http.MethodPost, http.MethodOptions)
@@ -56,7 +57,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	supplierGr.HandleFunc("/edit", h.editSupplier).Methods(http.MethodPut, http.MethodOptions)
 	//Application
 	ordersGr := router.PathPrefix("/orders").Subrouter()
-	ordersGr.HandleFunc("/create", h.createOrder).Methods(http.MethodPost, http.MethodOptions)
+	ordersGr.HandleFunc("/new", h.createOrder).Methods(http.MethodPost, http.MethodOptions)
 	ordersGr.HandleFunc("/list", h.getAllOrders).Methods(http.MethodGet, http.MethodOptions)
 	ordersGr.HandleFunc("/by-id", h.getOrderById).Methods(http.MethodGet, http.MethodOptions)
 	ordersGr.HandleFunc("/edit", h.editOrder).Methods(http.MethodPut, http.MethodOptions)
