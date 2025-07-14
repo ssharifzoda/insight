@@ -1,0 +1,1 @@
+drop table debtors, supplier_shops, users

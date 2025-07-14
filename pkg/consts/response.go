@@ -1,6 +1,8 @@
 package consts
 
 const (
+	UsernameOrPasswordWrong    = "Неправильно задан логин или пароль"
+	UserNotFound               = "Пользователь не найден"
 	CountErrResponse           = "Задайте количество записей"
 	PageErrResponse            = "Задайте страницу"
 	InvalidDigitalParams       = "Только цифры"

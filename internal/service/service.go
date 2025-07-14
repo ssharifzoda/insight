@@ -6,6 +6,10 @@ import (
 )
 
 type Authorization interface {
+	GetUserPermission(userId int) ([]int, error)
+	UpdateRefreshToken(userId int, accessToken, refreshToken string) error
+	GetTokenByUserId(userId int) (*models.UserAuth, error)
+	ChangeUserPassword(request *models.ChangePassword) error
 }
 
 type Settings interface {
@@ -17,6 +21,21 @@ type Settings interface {
 	GetAllCategories(page, limit int) ([]*models.Category, error)
 	EditCategory(category *models.Category) error
 	DeleteCategory(categoryId int) error
+	DeleteCity(cityId int) error
+	EditCity(city *models.City) error
+	GetAllCities(page, limit int) (result []*models.City, err error)
+	AddNewCity(city *models.City) error
+	AddNewPromotion(promotion *models.Promotion) error
+	GetAllPromotions(page, limit int) (result []*models.Promotion, err error)
+	GetPromotionById(promotionId int) (result *models.PromotionInfo, err error)
+	EditPromotion(promotion *models.Promotion) error
+	DeletePromotion(promotionId int) error
+	AddNewRole(role *models.RoleInput) error
+	GetAllRoles(limit, offset int) (result []*models.Role, err error)
+	GetRoleById(roleId int) (result *models.RoleInfo, err error)
+	EditRole(role *models.RoleInput) error
+	DeleteRole(roleId int) error
+	GetAllPermissions() ([]*models.Permission, error)
 }
 
 type Users interface {
@@ -36,11 +55,29 @@ type Shops interface {
 	DeleteShop(shopId int) error
 }
 
+type Suppliers interface {
+	AddNewSupplier(params *models.Supplier) error
+	UpdateSupplierParams(params *models.Supplier) error
+	GetAllSuppliers(page, limit int) ([]*models.Supplier, error)
+	GetSupplier(supplierId int) (*models.Supplier, error)
+	DeleteSupplier(supplierId int) error
+}
+
+type Products interface {
+	AddNewProduct(product *models.Product) error
+	GetAllProducts(limit, offset int) ([]*models.Product, error)
+	GetProductById(productId int) (*models.Product, error)
+	EditProduct(product *models.Product) error
+	DeleteProduct(productId int) error
+}
+
 type Service struct {
 	Authorization
 	Settings
 	Users
 	Shops
+	Suppliers
+	Products
 }
 
 func NewService(db *database.Database) *Service {
@@ -49,5 +86,7 @@ func NewService(db *database.Database) *Service {
 		Settings:      NewSettingService(db),
 		Users:         NewUserService(db),
 		Shops:         NewShopService(db),
+		Suppliers:     NewSupplierService(db),
+		Products:      NewProductService(db),
 	}
 }

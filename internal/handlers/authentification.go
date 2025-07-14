@@ -3,9 +3,10 @@ package api
 import (
 	"encoding/json"
 	"errors"
-	"green/internal/models"
-	"green/pkg/consts"
-	"green/pkg/utils"
+	"gorm.io/gorm"
+	"insight/internal/models"
+	"insight/pkg/consts"
+	"insight/pkg/utils"
 	"net/http"
 )
 
@@ -26,46 +27,52 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, err, 400, 0)
+		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
 	//get user from db
-	user, err := h.service.GetUserByUsername(request.Username)
+	user, err := h.service.Users.GetUserByPhone(request.Phone)
 	if err != nil {
-		if err.Error() == consts.UserNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			h.logger.Error(err)
-			utils.ErrorResponse(w, errors.New(consts.UserNotFound), 400, 0)
+			utils.ErrorResponse(w, consts.UserNotFound, 404, 0)
 			return
 		} else {
 			h.logger.Error(err)
-			utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+			utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 			return
 		}
 	}
 	//check password
 	if user.Password != request.Password {
 		h.logger.Error(consts.UsernameOrPasswordWrong)
-		utils.ErrorResponse(w, errors.New(consts.UsernameOrPasswordWrong), 400, 0)
+		utils.ErrorResponse(w, consts.UsernameOrPasswordWrong, 400, 0)
+		return
+	}
+	permissions, err := h.service.Authorization.GetUserPermission(user.Id)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 	//create token
-	accessToken, refreshToken, err := utils.GenerateTokens(user.Username)
+	accessToken, refreshToken, err := utils.GenerateTokens(user.Id, permissions)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 	//save refreshToken
-	err = h.service.Authorization.UpdateRefreshToken(request.Username, accessToken, refreshToken)
+	err = h.service.Authorization.UpdateRefreshToken(user.Id, accessToken, refreshToken)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 	utils.Response(w, map[string]interface{}{
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
-		"role":          user.Role,
+		"role":          user.RoleId,
 	})
 }
 
@@ -84,36 +91,43 @@ func (h *Handler) refreshToken(w http.ResponseWriter, r *http.Request) {
 	refreshToken := r.Header.Get("Authorization")
 	if refreshToken == "" {
 		h.logger.Error(consts.TokenIsEmpty)
-		utils.ErrorResponse(w, errors.New(consts.TokenIsEmpty), 401, 0)
+		utils.ErrorResponse(w, consts.TokenIsEmpty, 401, 0)
 		return
 	}
-	username, err := utils.ParseRefreshToken(refreshToken)
+	userId, err := utils.ParseRefreshToken(refreshToken)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	_, refreshTokenDb, err := h.service.GetTokensByUsername(username)
+	userAuth, err := h.service.GetTokenByUserId(userId)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	if refreshToken != refreshTokenDb {
+
+	if refreshToken != userAuth.RefreshToken {
 		h.logger.Error(consts.UserNotFound)
-		utils.ErrorResponse(w, errors.New(consts.UserNotFound), 404, 0)
+		utils.ErrorResponse(w, consts.UserNotFound, 404, 0)
 		return
 	}
-	accessToken, refreshToken, err := utils.GenerateTokens(username)
+	permissions, err := h.service.Authorization.GetUserPermission(userId)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	err = h.service.Authorization.UpdateRefreshToken(username, accessToken, refreshToken)
+	accessToken, refreshToken, err := utils.GenerateTokens(userId, permissions)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+	err = h.service.Authorization.UpdateRefreshToken(userId, accessToken, refreshToken)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 	utils.Response(w, map[string]interface{}{
@@ -141,32 +155,32 @@ func (h *Handler) changePassword(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, err, 400, 0)
+		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
 	//todo: validate password
-	username, err := utils.ParseRefreshToken(token)
+	userId, err := utils.ParseRefreshToken(token)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.TokenIsEmpty), 400, 0)
+		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
 		return
 	}
-	user, err := h.service.Authorization.GetUserByUsername(username)
+	user, err := h.service.Users.GetUserById(userId)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 	if user.Password != request.OldPassword {
 		h.logger.Error(consts.UsernameOrPasswordWrong)
-		utils.ErrorResponse(w, errors.New(consts.UsernameOrPasswordWrong), 400, 0)
+		utils.ErrorResponse(w, consts.UsernameOrPasswordWrong, 400, 0)
 		return
 	}
 	request.UserId = user.Id
 	err = h.service.Authorization.ChangeUserPassword(request)
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 	utils.Response(w, consts.Success)
@@ -188,19 +202,19 @@ func (h *Handler) logoutHandler(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("Authorization")
 	if token == "" {
 		h.logger.Error(consts.TokenIsEmpty)
-		utils.ErrorResponse(w, errors.New(consts.TokenIsEmpty), 400, 0)
+		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
 		return
 	}
-	username, err := utils.ParseRefreshToken(token)
+	userId, err := utils.ParseRefreshToken(token)
 	if err != nil {
 		h.logger.Error(consts.TokenIsEmpty)
-		utils.ErrorResponse(w, errors.New(consts.TokenIsEmpty), 400, 0)
+		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
 		return
 	}
-	err = h.service.Authorization.UpdateRefreshToken(username, " ", " ")
+	err = h.service.Authorization.UpdateRefreshToken(userId, " ", " ")
 	if err != nil {
 		h.logger.Error(err)
-		utils.ErrorResponse(w, errors.New(consts.InternalServerError), 500, 0)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 	utils.Response(w, consts.Success)

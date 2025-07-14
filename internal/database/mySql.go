@@ -3,14 +3,13 @@ package database
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	postgresDriver "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
 	"os"
 )
 
-func NewPostgresGorm() (*gorm.DB, error) {
+func NewMySqlGorm() (*gorm.DB, error) {
 	Host := viper.GetString("db.host")
 	Port := viper.GetUint16("db.port")
 	Username := viper.GetString("db.username")
