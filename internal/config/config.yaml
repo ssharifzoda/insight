@@ -2,10 +2,10 @@ server:
   port: "5005"
 
 db:
-  port: 5432
+  port: 3306
   host: "localhost"
-  dbName: "green"
-  username: "green"
+  dbName: "insight"
+  username: "root"
 
 job:
   passJobTime: 10

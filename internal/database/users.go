@@ -15,7 +15,28 @@ func NewUserDb(conn *gorm.DB) *UserDb {
 }
 
 func (u *UserDb) AddNewUser(params *models.User) error {
-	return u.conn.Table("users").Create(&params).Error
+	tx := u.conn.Begin()
+	err := tx.Table("users").Create(&params).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	passReset := time.Now().AddDate(0, 3, 0)
+	auth := &models.UserAuth{
+		UserId:      params.Id,
+		PassResetAt: &passReset,
+	}
+	err = tx.Table("user_auth").Create(&auth).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	err = tx.Commit().Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return nil
 }
 
 func (u *UserDb) UpdateUserParams(params *models.User) error {

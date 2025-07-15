@@ -17,11 +17,11 @@ import (
 // @ID addNewUser
 // @Accept json
 // @Produce json
-// @Param params body models.User true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Param params body models.UserSW true "Введите данные"
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /users/new [post]
 func (h *Handler) addNewUser(w http.ResponseWriter, r *http.Request) {
 	var params *models.User
@@ -48,11 +48,11 @@ func (h *Handler) addNewUser(w http.ResponseWriter, r *http.Request) {
 // @ID editUser
 // @Accept json
 // @Produce json
-// @Param params body models.User true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Param params body models.UserSW true "Введите данные"
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /users/edit [put]
 func (h *Handler) editUser(w http.ResponseWriter, r *http.Request) {
 	var params *models.User
@@ -80,10 +80,10 @@ func (h *Handler) editUser(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /users/list [get]
 func (h *Handler) getAllUsers(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -117,10 +117,10 @@ func (h *Handler) getAllUsers(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /users/by-id [get]
 func (h *Handler) getUserById(w http.ResponseWriter, r *http.Request) {
 	userIdStr := mux.Vars(r)["id"]
@@ -146,19 +146,19 @@ func (h *Handler) getUserById(w http.ResponseWriter, r *http.Request) {
 // @ID getMe
 // @Accept json
 // @Produce json
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /users/me [get]
 func (h *Handler) getMe(w http.ResponseWriter, r *http.Request) {
-	phone, err := utils.ParseRefreshToken(r.Header.Get("Authorization"))
+	userId, err := utils.ParseRefreshToken(r.Header.Get("Authorization"))
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
 		return
 	}
-	user, err := h.service.GetUserByPhone(phone)
+	user, err := h.service.GetUserById(userId)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
@@ -175,10 +175,10 @@ func (h *Handler) getMe(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /users/rm [delete]
 func (h *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 	userIdStr := mux.Vars(r)["id"]

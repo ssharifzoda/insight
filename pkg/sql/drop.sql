@@ -1,1 +1,1 @@
-drop table debtors, supplier_shops, users
+drop table debtors, supplier_shops, users,password_resets

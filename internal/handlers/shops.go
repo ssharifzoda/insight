@@ -18,10 +18,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param params body models.Shop true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /shops/new [post]
 func (h *Handler) addNewShop(w http.ResponseWriter, r *http.Request) {
 	var params *models.Shop
@@ -49,10 +49,10 @@ func (h *Handler) addNewShop(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Shop true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /shops/edit [put]
 func (h *Handler) editShop(w http.ResponseWriter, r *http.Request) {
 	var params *models.Shop
@@ -80,10 +80,10 @@ func (h *Handler) editShop(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /shops/list [get]
 func (h *Handler) getAllShops(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -117,10 +117,10 @@ func (h *Handler) getAllShops(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /shops/by-id [get]
 func (h *Handler) getShop(w http.ResponseWriter, r *http.Request) {
 	shopIdStr := mux.Vars(r)["id"]
@@ -147,10 +147,10 @@ func (h *Handler) getShop(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /shops/rm [delete]
 func (h *Handler) deleteShop(w http.ResponseWriter, r *http.Request) {
 	shopIdStr := mux.Vars(r)["id"]

@@ -18,10 +18,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param params body models.Supplier true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /suppliers/new [post]
 func (h *Handler) addNewSupplier(w http.ResponseWriter, r *http.Request) {
 	var params *models.Supplier
@@ -49,10 +49,10 @@ func (h *Handler) addNewSupplier(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Supplier true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /suppliers/edit [put]
 func (h *Handler) editSupplier(w http.ResponseWriter, r *http.Request) {
 	var params *models.Supplier
@@ -80,10 +80,10 @@ func (h *Handler) editSupplier(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /suppliers/list [get]
 func (h *Handler) getAllSuppliers(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -117,10 +117,10 @@ func (h *Handler) getAllSuppliers(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /suppliers/by-id [get]
 func (h *Handler) getSupplier(w http.ResponseWriter, r *http.Request) {
 	shopIdStr := mux.Vars(r)["id"]
@@ -139,18 +139,18 @@ func (h *Handler) getSupplier(w http.ResponseWriter, r *http.Request) {
 	utils.Response(w, supplier)
 }
 
-// @Summary deleteShop
+// @Summary deleteSupplier
 // @Security ApiKeyAuth
 // @Tags Suppliers
-// @Description Удаление магазина
-// @ID deleteShop
+// @Description Удаление поставщика
+// @ID deleteSupplier
 // @Accept json
 // @Produce json
 // @Param id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /suppliers/rm [delete]
 func (h *Handler) deleteSupplier(w http.ResponseWriter, r *http.Request) {
 	supplierIdStr := mux.Vars(r)["id"]

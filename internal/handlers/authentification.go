@@ -17,10 +17,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param input body models.SingIn true "user info"
-// @Success 200 {object} models.Response
-// @Failure 400 {object} models.ErrorResponse
-// @Failure 500 {object} models.ErrorResponse
-// @Failure default {object} models.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /auth/login [post]
 func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 	var request *models.SingIn
@@ -82,10 +82,10 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 // @Description Роут для обвноляения токена
 // @ID refreshToken
 // @Produce json
-// @Success 200 {object} models.Response
-// @Failure 400 {object} models.ErrorResponse
-// @Failure 500 {object} models.ErrorResponse
-// @Failure default {object} models.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /auth/refresh-token [post]
 func (h *Handler) refreshToken(w http.ResponseWriter, r *http.Request) {
 	refreshToken := r.Header.Get("Authorization")
@@ -143,29 +143,21 @@ func (h *Handler) refreshToken(w http.ResponseWriter, r *http.Request) {
 // @ID changePassword
 // @Accept json
 // @Produce json
-// @Param input body models.ChangePasswordSW true "Заполните поля"
-// @Success 200 {object} models.Response
-// @Failure 400 {object} models.ErrorResponse
-// @Failure 500 {object} models.ErrorResponse
-// @Failure default {object} models.ErrorResponse
+// @Param input body models.ChangePassword true "Заполните поля"
+// @Success 200 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /auth/change-password [put]
 func (h *Handler) changePassword(w http.ResponseWriter, r *http.Request) {
 	var request *models.ChangePassword
-	token := r.Header.Get("Authorization")
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	//todo: validate password
-	userId, err := utils.ParseRefreshToken(token)
-	if err != nil {
-		h.logger.Error(err)
-		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
-		return
-	}
-	user, err := h.service.Users.GetUserById(userId)
+	user, err := h.service.Users.GetUserById(request.UserId)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
@@ -193,10 +185,10 @@ func (h *Handler) changePassword(w http.ResponseWriter, r *http.Request) {
 // @ID logoutHandler
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Response
-// @Failure 400 {object} models.ErrorResponse
-// @Failure 500 {object} models.ErrorResponse
-// @Failure default {object} models.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /auth/log-out [put]
 func (h *Handler) logoutHandler(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("Authorization")

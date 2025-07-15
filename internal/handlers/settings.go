@@ -18,10 +18,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param params body models.Brand true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/brands [post]
 func (h *Handler) addBrand(w http.ResponseWriter, r *http.Request) {
 	var params *models.Brand
@@ -49,10 +49,10 @@ func (h *Handler) addBrand(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/brands [get]
 func (h *Handler) getAllBrands(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -86,10 +86,10 @@ func (h *Handler) getAllBrands(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Brand true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/brands [put]
 func (h *Handler) editBrand(w http.ResponseWriter, r *http.Request) {
 	var brand *models.Brand
@@ -116,10 +116,10 @@ func (h *Handler) editBrand(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param brand_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/brands [delete]
 func (h *Handler) deleteBrand(w http.ResponseWriter, r *http.Request) {
 	brandIdStr := mux.Vars(r)["brand_id"]
@@ -146,10 +146,10 @@ func (h *Handler) deleteBrand(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Category true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/categories [post]
 func (h *Handler) addNewCategory(w http.ResponseWriter, r *http.Request) {
 	var params *models.Category
@@ -177,10 +177,10 @@ func (h *Handler) addNewCategory(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/categories [get]
 func (h *Handler) getAllCategories(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -214,10 +214,10 @@ func (h *Handler) getAllCategories(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Category true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/categories [put]
 func (h *Handler) editCategory(w http.ResponseWriter, r *http.Request) {
 	var category *models.Category
@@ -244,10 +244,10 @@ func (h *Handler) editCategory(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param category_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/categories [delete]
 func (h *Handler) deleteCategory(w http.ResponseWriter, r *http.Request) {
 	categoryIdStr := mux.Vars(r)["category_id"]
@@ -274,10 +274,10 @@ func (h *Handler) deleteCategory(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.City true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/cities [post]
 func (h *Handler) addNewCity(w http.ResponseWriter, r *http.Request) {
 	var params *models.City
@@ -305,10 +305,10 @@ func (h *Handler) addNewCity(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/cities [get]
 func (h *Handler) getAllCities(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -342,10 +342,10 @@ func (h *Handler) getAllCities(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.City true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/cities [put]
 func (h *Handler) editCity(w http.ResponseWriter, r *http.Request) {
 	var city *models.City
@@ -372,10 +372,10 @@ func (h *Handler) editCity(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param city_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/cities [delete]
 func (h *Handler) deleteCity(w http.ResponseWriter, r *http.Request) {
 	cityIdStr := mux.Vars(r)["city_id"]
@@ -402,10 +402,10 @@ func (h *Handler) deleteCity(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Promotion true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/promotions [post]
 func (h *Handler) addNewPromotion(w http.ResponseWriter, r *http.Request) {
 	var params *models.Promotion
@@ -433,10 +433,10 @@ func (h *Handler) addNewPromotion(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/promotions [get]
 func (h *Handler) getAllPromotions(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -470,10 +470,10 @@ func (h *Handler) getAllPromotions(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param promotion_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/promotions [get]
 func (h *Handler) getPromotionById(w http.ResponseWriter, r *http.Request) {
 	promotionIdStr := mux.Vars(r)["promotion_id"]
@@ -500,10 +500,10 @@ func (h *Handler) getPromotionById(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Promotion true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/promotions [put]
 func (h *Handler) editPromotion(w http.ResponseWriter, r *http.Request) {
 	var promotion *models.Promotion
@@ -530,10 +530,10 @@ func (h *Handler) editPromotion(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param promotion_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/promotions [delete]
 func (h *Handler) deletePromotion(w http.ResponseWriter, r *http.Request) {
 	promotionIdStr := mux.Vars(r)["promotion_id"]
@@ -560,10 +560,10 @@ func (h *Handler) deletePromotion(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.RoleInput true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/roles [post]
 func (h *Handler) addNewRole(w http.ResponseWriter, r *http.Request) {
 	var params *models.RoleInput
@@ -591,10 +591,10 @@ func (h *Handler) addNewRole(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/roles [get]
 func (h *Handler) getAllRoles(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -628,10 +628,10 @@ func (h *Handler) getAllRoles(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param role_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/role [get]
 func (h *Handler) getRoleById(w http.ResponseWriter, r *http.Request) {
 	roleIdStr := mux.Vars(r)["role_id"]
@@ -658,10 +658,10 @@ func (h *Handler) getRoleById(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.RoleInput true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/roles [put]
 func (h *Handler) editRoleById(w http.ResponseWriter, r *http.Request) {
 	var role *models.RoleInput
@@ -688,10 +688,10 @@ func (h *Handler) editRoleById(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param role_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/roles [delete]
 func (h *Handler) deleteRole(w http.ResponseWriter, r *http.Request) {
 	roleIdStr := mux.Vars(r)["role_id"]
@@ -717,10 +717,10 @@ func (h *Handler) deleteRole(w http.ResponseWriter, r *http.Request) {
 // @ID getAllPermissions
 // @Accept json
 // @Produce json
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /settings/permissions [get]
 func (h *Handler) getAllPermissions(w http.ResponseWriter, r *http.Request) {
 	permissions, err := h.service.Settings.GetAllPermissions()

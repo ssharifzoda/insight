@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	_ "github.com/swaggo/http-swagger"
 	httpSwagger "github.com/swaggo/http-swagger"
+	_ "insight/docs"
 	"insight/internal/service"
 	"insight/pkg/logging"
 	"net/http"
@@ -36,22 +37,25 @@ func (h *Handler) InitRoutes() *mux.Router {
 	//Workers
 	usersGr := router.PathPrefix("/users").Subrouter()
 	usersGr.HandleFunc("/new", h.addNewUser)
-	usersGr.HandleFunc("/list", h.getAllUsers).Methods(http.MethodGet, http.MethodOptions)
-	usersGr.HandleFunc("/by-id", h.getUserById).Methods(http.MethodGet, http.MethodOptions)
+	usersGr.HandleFunc("/list", h.getAllUsers).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
+	usersGr.HandleFunc("/by-id", h.getUserById).Queries("id", "{id}").Methods(http.MethodGet, http.MethodOptions)
 	usersGr.HandleFunc("/me", h.getMe).Methods(http.MethodGet, http.MethodOptions)
 	usersGr.HandleFunc("/edit", h.editUser).Methods(http.MethodPut, http.MethodOptions)
 	usersGr.HandleFunc("/rm", h.deleteUser).Methods(http.MethodDelete, http.MethodOptions)
 	//Shops
 	shopGr := router.PathPrefix("/shops").Subrouter()
 	shopGr.HandleFunc("/new", h.addNewShop).Methods(http.MethodPost, http.MethodOptions)
-	shopGr.HandleFunc("/list", h.getAllShops).Methods(http.MethodGet, http.MethodOptions)
+	shopGr.HandleFunc("/list", h.getAllShops).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
 	shopGr.HandleFunc("/by-id", h.getShop).Methods(http.MethodGet, http.MethodOptions)
 	shopGr.HandleFunc("/rm", h.deleteShop).Methods(http.MethodDelete, http.MethodOptions)
 	shopGr.HandleFunc("/edit", h.editShop).Methods(http.MethodPut, http.MethodOptions)
 	//Supplier
 	supplierGr := router.PathPrefix("/suppliers").Subrouter()
 	supplierGr.HandleFunc("/new", h.addNewSupplier).Methods(http.MethodPost, http.MethodOptions)
-	supplierGr.HandleFunc("/list", h.getAllSuppliers).Methods(http.MethodGet, http.MethodOptions)
+	supplierGr.HandleFunc("/list", h.getAllSuppliers).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
 	supplierGr.HandleFunc("/by-id", h.getSupplier).Methods(http.MethodGet, http.MethodOptions)
 	supplierGr.HandleFunc("/rm", h.deleteSupplier).Methods(http.MethodDelete, http.MethodOptions)
 	supplierGr.HandleFunc("/edit", h.editSupplier).Methods(http.MethodPut, http.MethodOptions)
@@ -66,7 +70,8 @@ func (h *Handler) InitRoutes() *mux.Router {
 	//Product
 	productsGr := router.PathPrefix("/products").Subrouter()
 	productsGr.HandleFunc("/new", h.addNewProduct)
-	productsGr.HandleFunc("/list", h.getAllProducts).Methods(http.MethodGet, http.MethodOptions)
+	productsGr.HandleFunc("/list", h.getAllProducts).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
 	productsGr.HandleFunc("/by-id", h.getProduct).Methods(http.MethodGet, http.MethodOptions)
 	productsGr.HandleFunc("/edit", h.editProduct).Methods(http.MethodPut, http.MethodOptions)
 	productsGr.HandleFunc("/rm", h.deleteProduct).Methods(http.MethodDelete, http.MethodOptions)
@@ -81,7 +86,8 @@ func (h *Handler) InitRoutes() *mux.Router {
 	//Setting
 	settingsGr := router.PathPrefix("/settings").Subrouter()
 	settingsGr.HandleFunc("/brands", h.addBrand).Methods(http.MethodPost, http.MethodOptions)
-	settingsGr.HandleFunc("/brands", h.getAllBrands).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/brands", h.getAllBrands).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
 	settingsGr.HandleFunc("/brands", h.editBrand).Methods(http.MethodPut, http.MethodOptions)
 	settingsGr.HandleFunc("/brands", h.deleteBrand).Methods(http.MethodDelete, http.MethodOptions)
 	settingsGr.HandleFunc("/categories", h.addNewCategory).Methods(http.MethodPost, http.MethodOptions)
@@ -89,11 +95,13 @@ func (h *Handler) InitRoutes() *mux.Router {
 	settingsGr.HandleFunc("/categories", h.editCategory).Methods(http.MethodPut, http.MethodOptions)
 	settingsGr.HandleFunc("/categories", h.deleteCategory).Methods(http.MethodDelete, http.MethodOptions)
 	settingsGr.HandleFunc("/cities", h.addNewCity).Methods(http.MethodPost, http.MethodOptions)
-	settingsGr.HandleFunc("/cities", h.getAllCities).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/cities", h.getAllCities).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
 	settingsGr.HandleFunc("/cities", h.editCity).Methods(http.MethodPut, http.MethodOptions)
 	settingsGr.HandleFunc("/cities", h.deleteCity).Methods(http.MethodDelete, http.MethodOptions)
 	settingsGr.HandleFunc("/promotions", h.addNewPromotion).Methods(http.MethodPost, http.MethodOptions)
-	settingsGr.HandleFunc("/promotions", h.getAllPromotions).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/promotions", h.getAllPromotions).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
 	settingsGr.HandleFunc("/promotion", h.getPromotionById).Methods(http.MethodGet, http.MethodOptions)
 	settingsGr.HandleFunc("/promotions", h.editPromotion).Methods(http.MethodPut, http.MethodOptions)
 	settingsGr.HandleFunc("/promotions", h.deletePromotion).Methods(http.MethodDelete, http.MethodOptions)

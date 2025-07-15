@@ -29,7 +29,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("error initializing env value: %s", err.Error())
 	}
-	conn, err := database.NewPostgresGorm()
+	conn, err := database.NewMySqlGorm()
 	if err != nil {
 		log.Fatalf("failed to initializing db: %s", err.Error())
 	}

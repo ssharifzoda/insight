@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-type response struct {
+type DataResponse struct {
 	Message   interface{} `json:"message"`
 	ErrorCode int         `json:"error_code,omitempty"`
 }
@@ -25,7 +25,7 @@ func InitConfig() error {
 }
 
 func ErrorResponse(w http.ResponseWriter, errorDesc string, statusCode, errorCode int) {
-	message := response{Message: errorDesc, ErrorCode: errorCode}
+	message := DataResponse{Message: errorDesc, ErrorCode: errorCode}
 	data, err := json.Marshal(message)
 	if err != nil {
 		log.Println(err)
@@ -37,7 +37,7 @@ func ErrorResponse(w http.ResponseWriter, errorDesc string, statusCode, errorCod
 }
 
 func Response(w http.ResponseWriter, data interface{}) {
-	result := &response{Message: data}
+	result := &DataResponse{Message: data}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(result); err != nil {

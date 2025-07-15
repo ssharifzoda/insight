@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"github.com/spf13/viper"
+	mySqlDriver "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
@@ -15,14 +16,18 @@ func NewMySqlGorm() (*gorm.DB, error) {
 	Username := viper.GetString("db.username")
 	Password := os.Getenv("DB_PASSWORD")
 	DBName := viper.GetString("db.dbname")
-	connString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Asia/Dushanbe",
-		Host, Username, Password, DBName, Port)
-	conn, err := gorm.Open(postgresDriver.Open(connString), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Silent)})
+	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Asia%%2FDushanbe",
+		Username, Password, Host, Port, DBName)
+
+	conn, err := gorm.Open(mySqlDriver.Open(connString), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
+
 	if err != nil {
-		log.Printf("%s GetPostgresConnection -> Open error: ", err.Error())
+		log.Printf("❌ MySQL -> Open error: %s", err.Error())
 		return nil, err
 	}
-	log.Println("Postgres Connection success: ", Host)
+
+	log.Println("✅ MySQL Connection success:", Host)
 	return conn, nil
 }

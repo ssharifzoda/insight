@@ -18,10 +18,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param params body models.Product true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /products/new [post]
 func (h *Handler) addNewProduct(w http.ResponseWriter, r *http.Request) {
 	var params *models.Product
@@ -49,10 +49,10 @@ func (h *Handler) addNewProduct(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param params body models.Product true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /products/edit [put]
 func (h *Handler) editProduct(w http.ResponseWriter, r *http.Request) {
 	var params *models.Product
@@ -80,10 +80,10 @@ func (h *Handler) editProduct(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /products/list [get]
 func (h *Handler) getAllProducts(w http.ResponseWriter, r *http.Request) {
 	pageStr := mux.Vars(r)["page"]
@@ -117,10 +117,10 @@ func (h *Handler) getAllProducts(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param product_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /products/by-id [get]
 func (h *Handler) getProduct(w http.ResponseWriter, r *http.Request) {
 	productIdStr := mux.Vars(r)["product_id"]
@@ -147,10 +147,10 @@ func (h *Handler) getProduct(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param product_id query string true "Введите данные"
-// @Success 200 {object} utils.Response
-// @Failure 500 {object} utils.ErrorResponse
-// @Failure 400 {object} utils.ErrorResponse
-// @Failure default {object} utils.ErrorResponse
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
 // @Router /products/rm [delete]
 func (h *Handler) deleteProduct(w http.ResponseWriter, r *http.Request) {
 	productIdStr := mux.Vars(r)["product_id"]

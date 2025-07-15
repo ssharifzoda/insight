@@ -1,0 +1,1958 @@
+basePath: /api/v1
+definitions:
+  models.Brand:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Category:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+      order_number:
+        type: integer
+      parent_id:
+        type: integer
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.ChangePassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.City:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Product:
+    properties:
+      brand_id:
+        type: integer
+      category_id:
+        type: integer
+      code:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image:
+        type: string
+      name:
+        type: string
+      order_number:
+        type: integer
+      price:
+        type: number
+      promotion_id:
+        type: integer
+      status:
+        type: integer
+      supplier_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Promotion:
+    properties:
+      buy_qty:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      from_date:
+        type: string
+      gift_qty:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      supplier_id:
+        type: integer
+      to_date:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.RoleInput:
+    properties:
+      name:
+        type: string
+      permissions:
+        items:
+          type: integer
+        type: array
+    type: object
+  models.Shop:
+    properties:
+      TIN:
+        type: string
+      about:
+        type: string
+      address:
+        type: string
+      city_id: {}
+      company_logo:
+        type: string
+      company_name:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      legal_entity:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.SingIn:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.Supplier:
+    properties:
+      TIN:
+        type: string
+      about:
+        type: string
+      address:
+        type: string
+      city_id:
+        type: integer
+      company_logo:
+        type: string
+      company_name:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      legal_entity:
+        type: string
+      margin:
+        type: integer
+      minimum_order:
+        type: integer
+      name:
+        type: string
+      order_number:
+        type: integer
+      status:
+        type: integer
+      supply_dates:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+      vacation_at:
+        type: string
+    type: object
+  models.UserSW:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      phone:
+        type: string
+      position:
+        type: string
+      role_id:
+        type: integer
+    type: object
+  utils.DataResponse:
+    properties:
+      error_code:
+        type: integer
+      message: {}
+    type: object
+host: localhost:5005
+info:
+  contact: {}
+  description: Api INSIGHT project
+  title: Insight API SERVICE
+  version: 1.0.0
+paths:
+  /auth/change-password:
+    put:
+      consumes:
+      - application/json
+      description: changePassword
+      operationId: changePassword
+      parameters:
+      - description: Заполните поля
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: changePassword
+      tags:
+      - Auth
+  /auth/log-out:
+    put:
+      consumes:
+      - application/json
+      description: Роут для выхода из системы
+      operationId: logoutHandler
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: logoutHandler
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: sign-in in account
+      operationId: loginHandler
+      parameters:
+      - description: user info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SingIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      summary: loginHandler
+      tags:
+      - Auth
+  /auth/refresh-token:
+    post:
+      description: Роут для обвноляения токена
+      operationId: refreshToken
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: refreshToken
+      tags:
+      - Auth
+  /products/by-id:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр магазина
+      operationId: getProduct
+      parameters:
+      - description: Введите данные
+        in: query
+        name: product_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getProduct
+      tags:
+      - Products
+  /products/edit:
+    put:
+      consumes:
+      - application/json
+      description: Редактирование продукта
+      operationId: editProduct
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editProduct
+      tags:
+      - Products
+  /products/list:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр списока всех продуктов
+      operationId: getAllProducts
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllProducts
+      tags:
+      - Products
+  /products/new:
+    post:
+      consumes:
+      - application/json
+      description: Добавление нового продукта
+      operationId: addNewProduct
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewProduct
+      tags:
+      - Products
+  /products/rm:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление продукта
+      operationId: deleteProduct
+      parameters:
+      - description: Введите данные
+        in: query
+        name: product_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteProduct
+      tags:
+      - Products
+  /settings/brands:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление бренда
+      operationId: deleteBrand
+      parameters:
+      - description: Введите данные
+        in: query
+        name: brand_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteBrand
+      tags:
+      - Settings
+    get:
+      consumes:
+      - application/json
+      description: Просмотр всех брендов
+      operationId: getAllBrands
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllBrands
+      tags:
+      - Settings
+    post:
+      consumes:
+      - application/json
+      description: Добавление бренда
+      operationId: addBrand
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Brand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addBrand
+      tags:
+      - Settings
+    put:
+      consumes:
+      - application/json
+      description: Изменение бренда
+      operationId: editBrand
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Brand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editBrand
+      tags:
+      - Settings
+  /settings/categories:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление категории
+      operationId: deleteCategory
+      parameters:
+      - description: Введите данные
+        in: query
+        name: category_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteCategory
+      tags:
+      - Settings
+    get:
+      consumes:
+      - application/json
+      description: Просмотр всех категорий
+      operationId: getAllCategories
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllCategories
+      tags:
+      - Settings
+    post:
+      consumes:
+      - application/json
+      description: Добавление категории
+      operationId: addNewCategory
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Category'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewCategory
+      tags:
+      - Settings
+    put:
+      consumes:
+      - application/json
+      description: Редактирование категории
+      operationId: editCategory
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Category'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editCategory
+      tags:
+      - Settings
+  /settings/cities:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление города
+      operationId: deleteCity
+      parameters:
+      - description: Введите данные
+        in: query
+        name: city_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteCity
+      tags:
+      - Settings
+    get:
+      consumes:
+      - application/json
+      description: Просмотр всех городов
+      operationId: getAllCities
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllCities
+      tags:
+      - Settings
+    post:
+      consumes:
+      - application/json
+      description: Добавление города
+      operationId: addNewCity
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.City'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewCity
+      tags:
+      - Settings
+    put:
+      consumes:
+      - application/json
+      description: Редактирование города
+      operationId: editCity
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.City'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editCity
+      tags:
+      - Settings
+  /settings/permissions:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр всех доступов
+      operationId: getAllPermissions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllPermissions
+      tags:
+      - Settings
+  /settings/promotions:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление акции
+      operationId: deletePromotion
+      parameters:
+      - description: Введите данные
+        in: query
+        name: promotion_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deletePromotion
+      tags:
+      - Settings
+    get:
+      consumes:
+      - application/json
+      description: Просмотр подробной информации по акции
+      operationId: getPromotionById
+      parameters:
+      - description: Введите данные
+        in: query
+        name: promotion_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getPromotionById
+      tags:
+      - Settings
+    post:
+      consumes:
+      - application/json
+      description: Создание новой акции
+      operationId: addNewPromotion
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Promotion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewPromotion
+      tags:
+      - Settings
+    put:
+      consumes:
+      - application/json
+      description: Редактирование акции
+      operationId: editPromotion
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Promotion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editPromotion
+      tags:
+      - Settings
+  /settings/role:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр подробной информации по роли
+      operationId: getRoleById
+      parameters:
+      - description: Введите данные
+        in: query
+        name: role_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getRoleById
+      tags:
+      - Settings
+  /settings/roles:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление роли
+      operationId: deleteRole
+      parameters:
+      - description: Введите данные
+        in: query
+        name: role_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteRole
+      tags:
+      - Settings
+    get:
+      consumes:
+      - application/json
+      description: Просмотр всех ролей
+      operationId: getAllRoles
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllRoles
+      tags:
+      - Settings
+    post:
+      consumes:
+      - application/json
+      description: Создание новой роли
+      operationId: addNewRole
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.RoleInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewRole
+      tags:
+      - Settings
+    put:
+      consumes:
+      - application/json
+      description: Редактирование роли
+      operationId: editRoleById
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.RoleInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editRoleById
+      tags:
+      - Settings
+  /shops/by-id:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр магазина
+      operationId: getShop
+      parameters:
+      - description: Введите данные
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getShop
+      tags:
+      - Shops
+  /shops/edit:
+    put:
+      consumes:
+      - application/json
+      description: Редактирование магазина
+      operationId: editShop
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Shop'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editShop
+      tags:
+      - Shops
+  /shops/list:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр списока магазинов
+      operationId: getAllShops
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllShops
+      tags:
+      - Shops
+  /shops/new:
+    post:
+      consumes:
+      - application/json
+      description: Добавление нового магазина
+      operationId: addNewShop
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Shop'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewShop
+      tags:
+      - Shops
+  /shops/rm:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление магазина
+      operationId: deleteShop
+      parameters:
+      - description: Введите данные
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteShop
+      tags:
+      - Shops
+  /suppliers/by-id:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр поставщика
+      operationId: getSupplier
+      parameters:
+      - description: Введите данные
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getSupplier
+      tags:
+      - Suppliers
+  /suppliers/edit:
+    put:
+      consumes:
+      - application/json
+      description: Редактирование поставщика
+      operationId: editSupplier
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Supplier'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editSupplier
+      tags:
+      - Suppliers
+  /suppliers/list:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр списока поставщиков
+      operationId: getAllSuppliers
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllSuppliers
+      tags:
+      - Suppliers
+  /suppliers/new:
+    post:
+      consumes:
+      - application/json
+      description: Добавление нового поставщика
+      operationId: addNewSupplier
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.Supplier'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewSupplier
+      tags:
+      - Suppliers
+  /suppliers/rm:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление поставщика
+      operationId: deleteSupplier
+      parameters:
+      - description: Введите данные
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteSupplier
+      tags:
+      - Suppliers
+  /users/by-id:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр пользователя
+      operationId: getUserById
+      parameters:
+      - description: Введите данные
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getUserById
+      tags:
+      - Users
+  /users/edit:
+    put:
+      consumes:
+      - application/json
+      description: Редактирование пользователя
+      operationId: editUser
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserSW'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: editUser
+      tags:
+      - Users
+  /users/list:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр списока пользователей
+      operationId: getAllUsers
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllUsers
+      tags:
+      - Users
+  /users/me:
+    get:
+      consumes:
+      - application/json
+      description: Информация про меня
+      operationId: getMe
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getMe
+      tags:
+      - Users
+  /users/new:
+    post:
+      consumes:
+      - application/json
+      description: Добавление нового пользователя
+      operationId: addNewUser
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserSW'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewUser
+      tags:
+      - Users
+  /users/rm:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление пользователя
+      operationId: deleteUser
+      parameters:
+      - description: Введите данные
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteUser
+      tags:
+      - Users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

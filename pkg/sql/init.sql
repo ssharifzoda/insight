@@ -37,17 +37,21 @@ create table users(
 create table points(
     id bigint primary key,
     name text not null,
-    shop_id int references shops(id),
+    shop_id bigint unsigned references shops(id),
     status smallint default 1,
     created_at timestamp default current_timestamp,
     updated_at timestamp,
     deleted_at timestamp
-)
+);
 
 create table user_auth(
     user_id bigint unsigned references users(id),
     access_token text,
     refresh_token text,
     pass_reset_at timestamp,
+    temporary_pass smallint default 0,
     updated_at timestamp default current_timestamp
-)
+);
+
+alter table sale_point_supplier
+    change sale_point_id sale_point_type bigint unsigned not null;
