@@ -1,6 +1,11 @@
 package models
 
-import "time"
+import (
+	"database/sql/driver"
+	"encoding/json"
+	"fmt"
+	"time"
+)
 
 type Order struct {
 	Id          int        `json:"id"`
@@ -32,7 +37,7 @@ type OrderProducts struct {
 
 type OrderInfo struct {
 	Id          int         `json:"id"`
-	ShopId      int         `json:"shop_id"`
+	Shop        string      `json:"shop"`
 	Total       float64     `json:"total"`
 	DeliverAt   *time.Time  `json:"deliver_at"`
 	Comments    string      `json:"comments"`
@@ -43,9 +48,23 @@ type OrderInfo struct {
 	CompletedAt *time.Time  `json:"completed_at"`
 	Canceled    string      `json:"canceled"`
 	WhoCanceled string      `json:"who_canceled"`
-	Products    []*Products `json:"products"`
+	Products    ProductList `json:"products"`
 	CreatedAt   *time.Time  `json:"created_at"`
 	UpdatedAt   *time.Time  `json:"updated_at"`
+}
+
+type ProductList []*Products
+
+func (pl *ProductList) Scan(value interface{}) error {
+	bytes, ok := value.([]byte)
+	if !ok {
+		return fmt.Errorf("cannot convert %T to []byte", value)
+	}
+	return json.Unmarshal(bytes, pl)
+}
+
+func (pl *ProductList) Value() (driver.Value, error) {
+	return json.Marshal(pl)
 }
 
 type OrderInput struct {
@@ -57,6 +76,7 @@ type OrderInput struct {
 	Canceled    string  `json:"canceled"`
 	WhoCanceled string  `json:"who_canceled"`
 	OrderId     int     `json:"order_id"`
+	Status      int     `json:"status"`
 	Products    []struct {
 		ProductId int     `json:"product_id"`
 		Qty       int     `json:"qty"`
@@ -65,9 +85,12 @@ type OrderInput struct {
 }
 
 type Products struct {
+	Product   string  `json:"product" `
 	ProductId int     `json:"product_id"`
+	Image     string  `json:"image"`
 	Qty       int     `json:"qty"`
 	Price     float64 `json:"price"`
+	Total     float64 `json:"total"`
 }
 
 type OrderFilter struct {

@@ -126,3 +126,34 @@ func (h *Handler) getOrderById(w http.ResponseWriter, r *http.Request) {
 
 	utils.Response(w, order)
 }
+
+// @Summary editOrder
+// @Security ApiKeyAuth
+// @Tags Orders
+// @Description Корректировка заказа
+// @ID editOrder
+// @Accept json
+// @Produce json
+// @Param params body models.OrderInput true "Введите данные"
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
+// @Router /orders/edit [put]
+func (h *Handler) editOrder(w http.ResponseWriter, r *http.Request) {
+	var params *models.OrderInput
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
+		return
+	}
+	err = h.service.Orders.EditOrder(params)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+
+	utils.Response(w, consts.Success)
+}

@@ -64,8 +64,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	ordersGr.HandleFunc("/new", h.addOrder).Methods(http.MethodPost, http.MethodOptions)
 	ordersGr.HandleFunc("/list", h.getAllOrders).Methods(http.MethodGet, http.MethodOptions)
 	ordersGr.HandleFunc("/by-id", h.getOrderById).Queries("order_id", "{order_id}").Methods(http.MethodGet, http.MethodOptions)
-	//ordersGr.HandleFunc("/edit", h.editOrder).Methods(http.MethodPut, http.MethodOptions)
-	//ordersGr.HandleFunc("/rm", h.deleteOrder).Methods(http.MethodDelete, http.MethodOptions)
+	ordersGr.HandleFunc("/edit", h.editOrder).Methods(http.MethodPut, http.MethodOptions)
 	//ordersGr.HandleFunc("/list-pdf", h.downloadOrdersPdf).Methods(http.MethodGet, http.MethodOptions)
 	//Product
 	productsGr := router.PathPrefix("/products").Subrouter()

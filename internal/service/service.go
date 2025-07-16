@@ -75,6 +75,7 @@ type Orders interface {
 	AddNewOrder(order *models.OrderInput) error
 	GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, err error)
 	GetOrderById(orderId int) (order *models.OrderInfo, err error)
+	EditOrder(order *models.OrderInput) error
 }
 
 type Service struct {

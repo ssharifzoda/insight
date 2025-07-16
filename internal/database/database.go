@@ -74,6 +74,7 @@ type Orders interface {
 	AddNewOrder(order *models.OrderInput) error
 	GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, err error)
 	GetOrderById(orderId int) (*models.OrderInfo, error)
+	EditOrder(order *models.OrderInput) error
 }
 
 type Database struct {

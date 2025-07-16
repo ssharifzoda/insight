@@ -21,5 +21,17 @@ func (o *OrderService) GetAllOrders(filter *models.OrderFilter) (orders []*model
 }
 
 func (o *OrderService) GetOrderById(orderId int) (order *models.OrderInfo, err error) {
-	return o.db.GetOrderById(orderId)
+
+	order, err = o.db.GetOrderById(orderId)
+	if err != nil {
+		return nil, err
+	}
+	for _, product := range order.Products {
+		product.Total = product.Price * float64(product.Qty)
+	}
+	return order, err
+}
+
+func (o *OrderService) EditOrder(order *models.OrderInput) error {
+	return o.db.EditOrder(order)
 }

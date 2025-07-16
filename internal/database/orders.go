@@ -77,3 +77,50 @@ func (o *OrderDb) GetOrderById(orderId int) (order *models.OrderInfo, err error)
 	err = o.conn.Raw(consts.GetOrderByIdSQL, orderId).First(&order).Error
 	return order, err
 }
+
+func (o *OrderDb) EditOrder(order *models.OrderInput) error {
+	orderParams := &models.Order{
+		Id:          order.Id,
+		ShopId:      order.ShopId,
+		Total:       order.Total,
+		Comments:    order.Comments,
+		SupComments: order.SupComments,
+		Canceled:    order.Canceled,
+		WhoCanceled: order.WhoCanceled,
+		Status:      order.Status,
+	}
+	tx := o.conn.Begin()
+	err := tx.Table("orders").Updates(&orderParams).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	var items []*models.OrderProducts
+	for _, item := range order.Products {
+		orderProducts := &models.OrderProducts{
+			OrderId:   order.Id,
+			ProductId: item.ProductId,
+			Qty:       item.Qty,
+			Price:     item.Price,
+			Status:    1,
+		}
+		items = append(items, orderProducts)
+	}
+
+	err = tx.Where("order_id = ?", order.Id).Delete(&models.OrderProducts{}).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	err = tx.Table("order_products").Save(&items).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	err = tx.Commit().Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
