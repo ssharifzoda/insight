@@ -17,7 +17,7 @@ import (
 // @ID addNewShop
 // @Accept json
 // @Produce json
-// @Param params body models.Shop true "Введите данные"
+// @Param params body models.ShopSW true "Введите данные"
 // @Success 200 {object} utils.DataResponse
 // @Failure 500 {object} utils.DataResponse
 // @Failure 400 {object} utils.DataResponse
@@ -48,7 +48,7 @@ func (h *Handler) addNewShop(w http.ResponseWriter, r *http.Request) {
 // @ID editShop
 // @Accept json
 // @Produce json
-// @Param params body models.Shop true "Введите данные"
+// @Param params body models.ShopSW  true "Введите данные"
 // @Success 200 {object} utils.DataResponse
 // @Failure 500 {object} utils.DataResponse
 // @Failure 400 {object} utils.DataResponse

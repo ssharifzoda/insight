@@ -70,6 +70,12 @@ type Products interface {
 	DeleteProduct(productId int) error
 }
 
+type Orders interface {
+	AddNewOrder(order *models.OrderInput) error
+	GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, err error)
+	GetOrderById(orderId int) (*models.OrderInfo, error)
+}
+
 type Database struct {
 	Authorization
 	Setting
@@ -77,6 +83,7 @@ type Database struct {
 	Shops
 	Suppliers
 	Products
+	Orders
 }
 
 func NewDatabase(conn *gorm.DB) *Database {
@@ -87,5 +94,6 @@ func NewDatabase(conn *gorm.DB) *Database {
 		Suppliers:     NewSupplierDb(conn),
 		Authorization: NewAuthDb(conn),
 		Products:      NewProductDb(conn),
+		Orders:        NewOrderDb(conn),
 	}
 }

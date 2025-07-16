@@ -62,6 +62,36 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.OrderInput:
+    properties:
+      canceled:
+        type: string
+      comments:
+        type: string
+      id:
+        type: integer
+      order_id:
+        type: integer
+      products:
+        items:
+          properties:
+            price:
+              type: number
+            product_id:
+              type: integer
+            qty:
+              type: integer
+          type: object
+        type: array
+      shop_id:
+        type: integer
+      sup_comments:
+        type: string
+      total:
+        type: number
+      who_canceled:
+        type: string
+    type: object
   models.Product:
     properties:
       brand_id:
@@ -129,7 +159,7 @@ definitions:
           type: integer
         type: array
     type: object
-  models.Shop:
+  models.ShopSW:
     properties:
       TIN:
         type: string
@@ -142,10 +172,6 @@ definitions:
         type: string
       company_name:
         type: string
-      created_at:
-        type: string
-      deleted_at:
-        type: string
       email:
         type: string
       id:
@@ -153,10 +179,6 @@ definitions:
       legal_entity:
         type: string
       name:
-        type: string
-      status:
-        type: integer
-      updated_at:
         type: string
       user_id:
         type: integer
@@ -371,6 +393,129 @@ paths:
       summary: refreshToken
       tags:
       - Auth
+  /orders/by-id:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр заказа
+      operationId: getOrderById
+      parameters:
+      - description: Введите данные
+        in: query
+        name: order_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getOrderById
+      tags:
+      - Orders
+  /orders/list:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр заказов
+      operationId: getAllOrders
+      parameters:
+      - description: Введите данные
+        in: query
+        name: shop_id
+        type: string
+      - description: Введите данные
+        in: query
+        name: supplier_id
+        type: string
+      - description: Введите данные
+        in: query
+        name: status
+        type: string
+      - description: Введите данные
+        in: query
+        name: date_from
+        type: string
+      - description: Введите данные
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllOrders
+      tags:
+      - Orders
+  /orders/new:
+    post:
+      consumes:
+      - application/json
+      description: Добавление нового заказа
+      operationId: addOrder
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addOrder
+      tags:
+      - Orders
   /products/by-id:
     get:
       consumes:
@@ -1407,7 +1552,7 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/models.Shop'
+          $ref: '#/definitions/models.ShopSW'
       produces:
       - application/json
       responses:
@@ -1485,7 +1630,7 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/models.Shop'
+          $ref: '#/definitions/models.ShopSW'
       produces:
       - application/json
       responses:

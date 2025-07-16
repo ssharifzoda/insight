@@ -71,6 +71,12 @@ type Products interface {
 	DeleteProduct(productId int) error
 }
 
+type Orders interface {
+	AddNewOrder(order *models.OrderInput) error
+	GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, err error)
+	GetOrderById(orderId int) (order *models.OrderInfo, err error)
+}
+
 type Service struct {
 	Authorization
 	Settings
@@ -78,6 +84,7 @@ type Service struct {
 	Shops
 	Suppliers
 	Products
+	Orders
 }
 
 func NewService(db *database.Database) *Service {
@@ -88,5 +95,6 @@ func NewService(db *database.Database) *Service {
 		Shops:         NewShopService(db),
 		Suppliers:     NewSupplierService(db),
 		Products:      NewProductService(db),
+		Orders:        NewOrderService(db),
 	}
 }

@@ -55,3 +55,17 @@ create table user_auth(
 
 alter table sale_point_supplier
     change sale_point_id sale_point_type bigint unsigned not null;
+
+alter table shops
+    add user_id bigint not null;
+alter table shops
+    add constraint shops_user_id___fk
+        foreign key (user_id) references users (id);
+
+
+alter table suppliers
+    add user_id bigint unsigned null;
+
+alter table suppliers
+    add constraint suppliers_user_id___fk
+        foreign key (user_id) references users (id);

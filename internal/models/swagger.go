@@ -10,10 +10,18 @@ type UserSW struct {
 	Password string `json:"password"`
 }
 
-type ReportInput struct {
-	Description string `json:"description"`
-	Image       string `json:"image"`
-	Crops       int    `json:"crops"`
+type ShopSW struct {
+	Id          int         `json:"id"`
+	Name        string      `json:"name"`
+	Address     string      `json:"address"`
+	CityId      interface{} `json:"city_id"`
+	UserId      int         `json:"user_id"`
+	About       string      `json:"about"`
+	Email       string      `json:"email"`
+	TIN         string      `json:"TIN"`
+	CompanyName string      `json:"company_name"`
+	CompanyLogo string      `json:"company_logo"`
+	LegalEntity string      `json:"legal_entity"`
 }
 
 type ReportUpdate struct {
