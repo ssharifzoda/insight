@@ -19,7 +19,7 @@ type Supplier struct {
 	LegalEntity  string     `json:"legal_entity"`
 	MinimumOrder int        `json:"minimum_order"`
 	Margin       int        `json:"margin"`
-	SupplyDates  int        `json:"supply_dates"`
+	SupplyDates  string     `json:"supply_dates" gorm:"type:longtext"`
 	Status       int        `json:"status"`
 	VacationAt   *time.Time `json:"vacation_at"`
 	CreatedAt    *time.Time `json:"created_at"`

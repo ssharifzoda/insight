@@ -6,8 +6,8 @@ type Shop struct {
 	Id          int         `json:"id"`
 	Name        string      `json:"name"`
 	Address     string      `json:"address"`
-	CityId      interface{} `json:"city_id"`
-	UserId      int         `json:"user_id"`
+	CityId      interface{} `json:"city_id" gorm:"type:int"`
+	UserId      interface{} `json:"user_id" gorm:"type:int"`
 	About       string      `json:"about"`
 	Email       string      `json:"email"`
 	TIN         string      `json:"TIN"`
@@ -18,4 +18,14 @@ type Shop struct {
 	CreatedAt   *time.Time  `json:"created_at"`
 	UpdatedAt   *time.Time  `json:"updated_at"`
 	DeletedAt   *time.Time  `json:"deleted_at"`
+}
+
+type SalePoint struct {
+	Id        int        `json:"id"`
+	ShopId    int        `json:"shop_id"`
+	Name      string     `json:"name"`
+	Status    int        `json:"status"`
+	CreatedAt *time.Time `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at"`
 }

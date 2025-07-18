@@ -43,10 +43,21 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	userAuth, err := h.service.Authorization.GetTokenByUserId(user.Id)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
 	//check password
 	if user.Password != request.Password {
 		h.logger.Error(consts.UsernameOrPasswordWrong)
 		utils.ErrorResponse(w, consts.UsernameOrPasswordWrong, 400, 0)
+		return
+	}
+	if userAuth.TemporaryPass == 1 {
+		h.logger.Error(consts.TemporaryPassResponse)
+		utils.ErrorResponse(w, consts.TemporaryPassResponse, 451, 0)
 		return
 	}
 	permissions, err := h.service.Authorization.GetUserPermission(user.Id)
@@ -70,6 +81,7 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.Response(w, map[string]interface{}{
+		"user_id":       user.Id,
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
 		"role":          user.RoleId,

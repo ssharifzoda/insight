@@ -1,6 +1,7 @@
 package consts
 
 const (
+	TemporaryPassResponse      = "Ваш пароль устарел, необходимо поменять"
 	UsernameOrPasswordWrong    = "Неправильно задан логин или пароль"
 	UserNotFound               = "Пользователь не найден"
 	CountErrResponse           = "Задайте количество записей"

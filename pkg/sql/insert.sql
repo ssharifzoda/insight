@@ -13,3 +13,6 @@ from suppliers;
 insert into user_auth(user_id)
 select id
 from users;
+
+
+update user_auth set pass_reset_at = current_timestamp where pass_reset_at is null;

@@ -32,8 +32,12 @@ func (u *UserService) GetAllUsers(page, limit int) ([]*models.User, error) {
 	return u.db.GetAllUsers(limit, offset)
 }
 
-func (u *UserService) GetUserById(userId int) (*models.User, error) {
-	return u.db.GetUserById(userId)
+func (u *UserService) GetUserById(userId int) (*models.UserInfo, error) {
+	item, err := u.db.GetUserById(userId)
+	if err != nil {
+		return nil, err
+	}
+	return item, nil
 }
 func (u *UserService) GetUserByPhone(phone string) (*models.User, error) {
 	user, err := u.db.GetUserByPhone(phone)

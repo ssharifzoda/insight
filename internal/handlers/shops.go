@@ -130,7 +130,7 @@ func (h *Handler) getShop(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	shop, err := h.service.GetShop(shopId)
+	shop, err := h.service.Shops.GetShop(shopId)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)

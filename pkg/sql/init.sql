@@ -34,10 +34,11 @@ create table users(
     deleted_at timestamp
 );
 
-create table points(
+create table sale_points(
     id bigint primary key,
     name text not null,
     shop_id bigint unsigned references shops(id),
+    user_id bigint unsigned references shops(id),
     status smallint default 1,
     created_at timestamp default current_timestamp,
     updated_at timestamp,

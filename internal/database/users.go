@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"gorm.io/gorm"
 	"insight/internal/models"
 	"time"
@@ -49,9 +50,34 @@ func (u *UserDb) GetAllUsers(limit, offset int) ([]*models.User, error) {
 	return users, err
 }
 
-func (u *UserDb) GetUserById(userId int) (*models.User, error) {
-	var user *models.User
+func (u *UserDb) GetUserById(userId int) (*models.UserInfo, error) {
+	var (
+		user *models.UserInfo
+	)
 	err := u.conn.Table("users").Where("active = 1 and id = ?", userId).First(&user).Error
+	switch user.RoleId {
+	case 5:
+		var shop *models.Shop
+		err = u.conn.Table("shops").Where("user_id = ? and status = 1", userId).First(&shop).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return user, nil
+		}
+		user.My = shop
+	case 6:
+		var supplier *models.Supplier
+		err = u.conn.Table("suppliers").Where("user_id = ? and status = 1", userId).First(&supplier).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return user, nil
+		}
+		user.My = supplier
+	case 7:
+		var salePoint *models.SalePoint
+		err = u.conn.Table("sale_points").Where("user_id = ? and status = 1", userId).First(&salePoint).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return user, nil
+		}
+		user.My = salePoint
+	}
 	return user, err
 }
 

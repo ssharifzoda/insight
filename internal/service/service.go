@@ -42,7 +42,7 @@ type Users interface {
 	AddNewUser(params *models.User) error
 	UpdateUserParams(params *models.User) error
 	GetAllUsers(page, limit int) ([]*models.User, error)
-	GetUserById(userId int) (*models.User, error)
+	GetUserById(userId int) (*models.UserInfo, error)
 	GetUserByPhone(phone string) (*models.User, error)
 	DeleteUser(userId int) error
 }

@@ -32,14 +32,33 @@ func (a *AuthDb) UpdateRefreshToken(userId int, accessToken, refreshToken string
 
 func (a *AuthDb) GetTokenByUserId(userId int) (*models.UserAuth, error) {
 	var params *models.UserAuth
-	err := a.conn.Where("user_id", userId).First(&params).Error
+	err := a.conn.Table("user_auth").Where("user_id", userId).First(&params).Error
 	return params, err
 }
 
 func (a *AuthDb) ChangeUserPassword(request *models.ChangePassword) error {
-	err := a.conn.Table("users").Where("id", request.UserId).UpdateColumns(map[string]interface{}{
+	tx := a.conn.Begin()
+	err := tx.Table("users").Where("id", request.UserId).UpdateColumns(map[string]interface{}{
 		"password":   request.NewPassword,
 		"updated_at": time.Now(),
 	}).Error
-	return err
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	err = tx.Table("user_auth").Where("user_id", request.UserId).UpdateColumns(map[string]interface{}{
+		"temporary_pass": 0,
+		"pass_reset_at":  time.Now().AddDate(0, 3, 0),
+		"updated_at":     time.Now(),
+	}).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	err = tx.Commit().Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return nil
 }
