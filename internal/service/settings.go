@@ -3,6 +3,9 @@ package service
 import (
 	"insight/internal/database"
 	"insight/internal/models"
+	"insight/pkg/consts"
+	"insight/pkg/utils"
+	"time"
 )
 
 type SettingService struct {
@@ -14,6 +17,12 @@ func NewSettingService(db database.Setting) *SettingService {
 }
 
 func (s *SettingService) AddBrand(params *models.Brand) error {
+	path := consts.GlobalLogoFilePath + params.Name + time.Now().Format(time.DateOnly)
+	err := utils.SaveImageFromBase64(params.Logo, path)
+	if err != nil {
+		return err
+	}
+	params.Logo = path
 	return s.db.AddBrand(params)
 }
 

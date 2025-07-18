@@ -31,7 +31,7 @@ func (h *Handler) addBrand(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	err = h.service.AddBrand(params)
+	err = h.service.Settings.AddBrand(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
