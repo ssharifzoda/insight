@@ -3,6 +3,8 @@ package database
 import (
 	"gorm.io/gorm"
 	"insight/internal/models"
+	"insight/pkg/consts"
+	"time"
 )
 
 type NotificationDb struct {
@@ -27,11 +29,11 @@ func (n *NotificationDb) CreateNewNotification(message *models.NotificationInput
 		tx.Rollback()
 		return err
 	}
-	for i := range message.Shops {
-		item := &models.NotificationShop{NotificationId: notify.Id, ShopId: i}
+	for _, shop := range message.Shops {
+		item := &models.NotificationShop{NotificationId: notify.Id, ShopId: shop}
 		notifyReceiver = append(notifyReceiver, item)
 	}
-	err = tx.Create(&notifyReceiver).Error
+	err = tx.Table("notification_shop").Create(&notifyReceiver).Error
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -42,4 +44,23 @@ func (n *NotificationDb) CreateNewNotification(message *models.NotificationInput
 		return err
 	}
 	return nil
+}
+
+func (n *NotificationDb) GetAllNotifications(limit, offset int) ([]*models.Notification, error) {
+	var result []*models.Notification
+	err := n.conn.Where("status = 1").Limit(limit).Offset(offset).Find(&result).Error
+	return result, err
+}
+
+func (n *NotificationDb) GetNotificationById(notificationId int) (*models.NotificationInfo, error) {
+	var info *models.NotificationInfo
+	err := n.conn.Raw(consts.GetNotificationInfoSQL, notificationId).Scan(&info).Error
+	return info, err
+}
+func (n *NotificationDb) DeleteNotification(notificationId int) error {
+	err := n.conn.Table("notifications").Where("id", notificationId).UpdateColumns(map[string]interface{}{
+		"status":     0,
+		"updated_at": time.Now(),
+	}).Error
+	return err
 }

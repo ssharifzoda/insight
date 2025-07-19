@@ -408,6 +408,83 @@ paths:
       summary: refreshToken
       tags:
       - Auth
+  /notifications/by-id:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр уведомления
+      operationId: getNotification
+      parameters:
+      - description: Введите данные
+        in: query
+        name: notification_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getNotification
+      tags:
+      - Notifications
+  /notifications/list:
+    get:
+      consumes:
+      - application/json
+      description: Просмотр списока всех уведомлений
+      operationId: getAllNotifications
+      parameters:
+      - description: Введите данные
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: getAllNotifications
+      tags:
+      - Notifications
   /notifications/new:
     post:
       consumes:
@@ -443,6 +520,42 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: addNewNotification
+      tags:
+      - Notifications
+  /notifications/rm:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление уведомления
+      operationId: deleteNotification
+      parameters:
+      - description: Введите данные
+        in: query
+        name: notification_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: deleteNotification
       tags:
       - Notifications
   /orders/by-id:

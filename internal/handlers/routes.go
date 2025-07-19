@@ -78,10 +78,12 @@ func (h *Handler) InitRoutes() *mux.Router {
 	//Notification
 	notificationsGr := router.PathPrefix("/notifications").Subrouter()
 	notificationsGr.HandleFunc("/new", h.addNewNotification)
-	//notificationsGr.HandleFunc("/list", h.getAllNotifications).Methods(http.MethodGet, http.MethodOptions)
-	//notificationsGr.HandleFunc("/by-id", h.getNotification).Methods(http.MethodGet, http.MethodOptions)
-	//notificationsGr.HandleFunc("/edit", h.editNotification).Methods(http.MethodPut, http.MethodOptions) //todo: здесь же просмотр либо отдельный роут
-	//notificationsGr.HandleFunc("/rm", h.deleteNotification).Methods(http.MethodDelete, http.MethodOptions)
+	notificationsGr.HandleFunc("/list", h.getAllNotifications).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
+	notificationsGr.HandleFunc("/by-id", h.getNotification).
+		Queries("notification_id", "{notification_id}").Methods(http.MethodGet, http.MethodOptions)
+	notificationsGr.HandleFunc("/rm", h.deleteNotification).
+		Queries("notification_id", "{notification_id}").Methods(http.MethodDelete, http.MethodOptions)
 	//Setting
 	settingsGr := router.PathPrefix("/settings").Subrouter()
 	settingsGr.HandleFunc("/brands", h.addBrand).Methods(http.MethodPost, http.MethodOptions)

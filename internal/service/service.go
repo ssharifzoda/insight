@@ -80,6 +80,9 @@ type Orders interface {
 
 type Notifications interface {
 	CreateNewNotification(message *models.NotificationInput) error
+	GetAllNotifications(page, limit int) ([]*models.Notification, error)
+	GetNotificationById(notificationId int) (*models.NotificationInfo, error)
+	DeleteNotification(notificationId int) error
 }
 
 type Service struct {

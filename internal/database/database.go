@@ -79,6 +79,9 @@ type Orders interface {
 
 type Notifications interface {
 	CreateNewNotification(message *models.NotificationInput) error
+	GetAllNotifications(limit, offset int) ([]*models.Notification, error)
+	GetNotificationById(notificationId int) (*models.NotificationInfo, error)
+	DeleteNotification(notificationId int) error
 }
 
 type Database struct {

@@ -70,3 +70,6 @@ alter table suppliers
 alter table suppliers
     add constraint suppliers_user_id___fk
         foreign key (user_id) references users (id);
+
+alter table notifications
+    add status smallint default 1;
