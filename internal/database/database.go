@@ -77,6 +77,10 @@ type Orders interface {
 	EditOrder(order *models.OrderInput) error
 }
 
+type Notifications interface {
+	CreateNewNotification(message *models.NotificationInput) error
+}
+
 type Database struct {
 	Authorization
 	Setting
@@ -85,6 +89,7 @@ type Database struct {
 	Suppliers
 	Products
 	Orders
+	Notifications
 }
 
 func NewDatabase(conn *gorm.DB) *Database {
@@ -96,5 +101,6 @@ func NewDatabase(conn *gorm.DB) *Database {
 		Authorization: NewAuthDb(conn),
 		Products:      NewProductDb(conn),
 		Orders:        NewOrderDb(conn),
+		Notifications: NewNotificationDb(conn),
 	}
 }

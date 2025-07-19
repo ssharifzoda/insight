@@ -62,6 +62,19 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.NotificationInput:
+    properties:
+      description:
+        type: string
+      image:
+        type: string
+      shops:
+        items:
+          type: integer
+        type: array
+      title:
+        type: string
+    type: object
   models.OrderInput:
     properties:
       canceled:
@@ -227,7 +240,7 @@ definitions:
       status:
         type: integer
       supply_dates:
-        type: integer
+        type: string
       updated_at:
         type: string
       user_id:
@@ -395,6 +408,43 @@ paths:
       summary: refreshToken
       tags:
       - Auth
+  /notifications/new:
+    post:
+      consumes:
+      - application/json
+      description: Создание нового уведомления
+      operationId: addNewNotification
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.NotificationInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: addNewNotification
+      tags:
+      - Notifications
   /orders/by-id:
     get:
       consumes:

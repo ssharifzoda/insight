@@ -78,6 +78,10 @@ type Orders interface {
 	EditOrder(order *models.OrderInput) error
 }
 
+type Notifications interface {
+	CreateNewNotification(message *models.NotificationInput) error
+}
+
 type Service struct {
 	Authorization
 	Settings
@@ -86,6 +90,7 @@ type Service struct {
 	Suppliers
 	Products
 	Orders
+	Notifications
 }
 
 func NewService(db *database.Database) *Service {
@@ -97,5 +102,6 @@ func NewService(db *database.Database) *Service {
 		Suppliers:     NewSupplierService(db),
 		Products:      NewProductService(db),
 		Orders:        NewOrderService(db),
+		Notifications: NewNotificationService(db),
 	}
 }
