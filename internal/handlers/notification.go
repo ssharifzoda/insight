@@ -6,7 +6,6 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -32,7 +31,6 @@ func (h *Handler) addNewNotification(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	log.Println(params.Shops)
 	err = h.service.Notifications.CreateNewNotification(params)
 	if err != nil {
 		h.logger.Error(err)
