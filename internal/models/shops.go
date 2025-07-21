@@ -4,7 +4,7 @@ import "time"
 
 type Shop struct {
 	Id          int         `json:"id"`
-	Name        string      `json:"name"`
+	Fullname    string      `json:"fullname"`
 	Address     string      `json:"address"`
 	CityId      interface{} `json:"city_id" gorm:"type:int"`
 	UserId      interface{} `json:"user_id" gorm:"type:int"`

@@ -7,7 +7,7 @@ import (
 type Supplier struct {
 	Id           int        `json:"id"`
 	OrderNumber  int        `json:"order_number"`
-	Name         string     `json:"name"`
+	Fullname     string     `json:"fullname"`
 	Address      string     `json:"address"`
 	CityId       int        `json:"city_id"`
 	UserId       int        `json:"user_id"`

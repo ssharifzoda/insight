@@ -26,9 +26,9 @@ func (p *ProductService) AddNewProduct(product *models.Product) error {
 	return p.db.AddNewProduct(product)
 }
 
-func (p *ProductService) GetAllProducts(page, limit int) ([]*models.Product, error) {
+func (p *ProductService) GetAllProducts(page, limit int, filter *models.ProductFilter) ([]*models.Product, error) {
 	offset := (page * limit) - limit
-	return p.db.GetAllProducts(limit, offset)
+	return p.db.GetAllProducts(limit, offset, filter)
 }
 func (p *ProductService) GetProductById(productId int) (*models.Product, error) {
 	product, err := p.db.GetProductById(productId)

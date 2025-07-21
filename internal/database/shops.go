@@ -22,10 +22,15 @@ func (s *ShopDb) UpdateShopParams(params *models.Shop) error {
 	return s.conn.Table("shops").Where("id").Updates(*params).Error
 }
 
-func (s *ShopDb) GetAllShops(limit, offset int) ([]*models.Shop, error) {
+func (s *ShopDb) GetAllShops(limit, offset int, search string) ([]*models.Shop, error) {
 	var shops []*models.Shop
-	err := s.conn.Table("shops").Where("active", 1).Limit(limit).Offset(offset).Find(&shops).Error
-	return shops, err
+	tx := s.conn.Table("shops").Where("status", 1)
+	if search != "" {
+		tx = tx.Where("fullname LIKE ?", "%"+search+"%").Find(&shops)
+		return shops, tx.Error
+	}
+	tx = tx.Limit(limit).Offset(offset).Find(&shops)
+	return shops, tx.Error
 }
 func (s *ShopDb) GetShop(shopId int) (*models.Shop, error) {
 	var shop *models.Shop

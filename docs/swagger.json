@@ -841,6 +841,30 @@
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "brand_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "category_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "supplier_id",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2385,6 +2409,12 @@
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3454,13 +3484,13 @@
                 "email": {
                     "type": "string"
                 },
+                "fullname": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "legal_entity": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 },
                 "user_id": {
@@ -3509,6 +3539,9 @@
                 "email": {
                     "type": "string"
                 },
+                "fullname": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -3520,9 +3553,6 @@
                 },
                 "minimum_order": {
                     "type": "integer"
-                },
-                "name": {
-                    "type": "string"
                 },
                 "order_number": {
                     "type": "integer"

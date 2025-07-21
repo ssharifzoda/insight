@@ -12,7 +12,7 @@ type UserSW struct {
 
 type ShopSW struct {
 	Id          int         `json:"id"`
-	Name        string      `json:"name"`
+	Fullname    string      `json:"fullname"`
 	Address     string      `json:"address"`
 	CityId      interface{} `json:"city_id"`
 	UserId      int         `json:"user_id"`

@@ -847,6 +847,30 @@ const docTemplate = `{
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "brand_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "category_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "supplier_id",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2391,6 +2415,12 @@ const docTemplate = `{
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3460,13 +3490,13 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
+                "fullname": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "legal_entity": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 },
                 "user_id": {
@@ -3515,6 +3545,9 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
+                "fullname": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -3526,9 +3559,6 @@ const docTemplate = `{
                 },
                 "minimum_order": {
                     "type": "integer"
-                },
-                "name": {
-                    "type": "string"
                 },
                 "order_number": {
                     "type": "integer"

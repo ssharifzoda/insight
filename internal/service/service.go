@@ -51,7 +51,7 @@ type Users interface {
 type Shops interface {
 	AddNewShop(params *models.Shop) error
 	UpdateShopParams(params *models.Shop) error
-	GetAllShops(page, limit int) ([]*models.Shop, error)
+	GetAllShops(page, limit int, search string) ([]*models.Shop, error)
 	GetShop(shopId int) (*models.Shop, error)
 	DeleteShop(shopId int) error
 }
@@ -66,7 +66,7 @@ type Suppliers interface {
 
 type Products interface {
 	AddNewProduct(product *models.Product) error
-	GetAllProducts(limit, offset int) ([]*models.Product, error)
+	GetAllProducts(limit, offset int, filter *models.ProductFilter) (result []*models.Product, err error)
 	GetProductById(productId int) (*models.Product, error)
 	EditProduct(product *models.Product) error
 	DeleteProduct(productId int) error

@@ -19,3 +19,10 @@ type Product struct {
 	UpdatedAt   *time.Time `json:"updated_at"`
 	DeletedAt   *time.Time `json:"deleted_at"`
 }
+
+type ProductFilter struct {
+	CategoryId int    `json:"category_id"`
+	BrandId    int    `json:"brand_id"`
+	SupplierId int    `json:"supplier_id"`
+	Search     string `json:"search"`
+}

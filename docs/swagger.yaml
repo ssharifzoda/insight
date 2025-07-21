@@ -189,11 +189,11 @@ definitions:
         type: string
       email:
         type: string
+      fullname:
+        type: string
       id:
         type: integer
       legal_entity:
-        type: string
-      name:
         type: string
       user_id:
         type: integer
@@ -225,6 +225,8 @@ definitions:
         type: string
       email:
         type: string
+      fullname:
+        type: string
       id:
         type: integer
       legal_entity:
@@ -233,8 +235,6 @@ definitions:
         type: integer
       minimum_order:
         type: integer
-      name:
-        type: string
       order_number:
         type: integer
       status:
@@ -807,6 +807,22 @@ paths:
         in: query
         name: limit
         required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: search
+        type: string
+      - description: Введите данные
+        in: query
+        name: brand_id
+        type: string
+      - description: Введите данные
+        in: query
+        name: category_id
+        type: string
+      - description: Введите данные
+        in: query
+        name: supplier_id
         type: string
       produces:
       - application/json
@@ -1803,6 +1819,10 @@ paths:
         in: query
         name: limit
         required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: search
         type: string
       produces:
       - application/json

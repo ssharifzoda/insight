@@ -6,6 +6,8 @@ const (
 	UserNotFound               = "Пользователь не найден"
 	CountErrResponse           = "Задайте количество записей"
 	PageErrResponse            = "Задайте страницу"
+	FilterError                = "Ошибка фильтрации"
+	StrconvErr                 = "strconv.Atoi: parsing \\\"\\\": invalid syntax"
 	InvalidDigitalParams       = "Только цифры"
 	InvalidBrandId             = "Укажите идентификатор бренда"
 	InvalidIdentificationParam = "Идентификатором поиска служат только цифры"
