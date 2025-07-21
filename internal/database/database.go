@@ -78,7 +78,7 @@ type Orders interface {
 }
 
 type Notifications interface {
-	CreateNewNotification(message *models.NotificationInput) error
+	CreateNewNotification(message *models.NotificationInput) (int, error)
 	GetAllNotifications(limit, offset int) ([]*models.Notification, error)
 	GetNotificationById(notificationId int) (*models.NotificationInfo, error)
 	DeleteNotification(notificationId int) error

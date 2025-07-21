@@ -1,6 +1,7 @@
 package service
 
 import (
+	"firebase.google.com/go/v4/messaging"
 	"insight/internal/database"
 	"insight/internal/models"
 )
@@ -96,7 +97,7 @@ type Service struct {
 	Notifications
 }
 
-func NewService(db *database.Database) *Service {
+func NewService(db *database.Database, client *messaging.Client) *Service {
 	return &Service{
 		Authorization: NewAuthService(db),
 		Settings:      NewSettingService(db),
@@ -105,6 +106,6 @@ func NewService(db *database.Database) *Service {
 		Suppliers:     NewSupplierService(db),
 		Products:      NewProductService(db),
 		Orders:        NewOrderService(db),
-		Notifications: NewNotificationService(db),
+		Notifications: NewNotificationService(db, client),
 	}
 }

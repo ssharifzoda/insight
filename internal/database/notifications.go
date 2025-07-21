@@ -15,7 +15,7 @@ func NewNotificationDb(conn *gorm.DB) *NotificationDb {
 	return &NotificationDb{conn: conn}
 }
 
-func (n *NotificationDb) CreateNewNotification(message *models.NotificationInput) error {
+func (n *NotificationDb) CreateNewNotification(message *models.NotificationInput) (int, error) {
 	var (
 		notify         models.Notification
 		notifyReceiver []*models.NotificationShop
@@ -27,7 +27,7 @@ func (n *NotificationDb) CreateNewNotification(message *models.NotificationInput
 	err := tx.Create(&notify).Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return 0, err
 	}
 	for _, shop := range message.Shops {
 		item := &models.NotificationShop{NotificationId: notify.Id, ShopId: shop}
@@ -36,14 +36,14 @@ func (n *NotificationDb) CreateNewNotification(message *models.NotificationInput
 	err = tx.Table("notification_shop").Create(&notifyReceiver).Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return 0, err
 	}
 	err = tx.Commit().Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return 0, err
 	}
-	return nil
+	return notify.Id, nil
 }
 
 func (n *NotificationDb) GetAllNotifications(limit, offset int) ([]*models.Notification, error) {

@@ -33,10 +33,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to initializing db: %s", err.Error())
 	}
-	repository := database.NewDatabase(conn)
-	services := service.NewService(repository)
-	handlers := api.NewHandler(services, log)
 	srv := new(server.Server)
+	firebaseConn := srv.FirebaseConn()
+	repository := database.NewDatabase(conn)
+	services := service.NewService(repository, firebaseConn)
+	handlers := api.NewHandler(services, log)
 	if err = srv.Run(viper.GetString("server.port"), handlers.InitRoutes()); err != nil {
 		log.Fatalf("error occured while running http server: %s", err.Error())
 	}
