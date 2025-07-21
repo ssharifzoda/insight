@@ -14,11 +14,11 @@ type Authorization interface {
 
 type Setting interface {
 	AddBrand(params *models.Brand) error
-	GetAllBrands(limit, offset int) ([]*models.Brand, error)
+	GetAllBrands(page, limit int, search string) ([]*models.Brand, error)
 	EditBrand(brand *models.Brand) error
 	DeleteBrand(brandId int) error
 	AddNewCategory(category *models.Category) error
-	GetAllCategories(limit, offset int) ([]*models.Category, error)
+	GetAllCategories(limit, offset int, search string) (result []*models.Category, err error)
 	EditCategory(category *models.Category) error
 	DeleteCategory(categoryId int) error
 	DeleteCity(cityId int) error
@@ -57,7 +57,7 @@ type Shops interface {
 type Suppliers interface {
 	AddNewSupplier(params *models.Supplier) error
 	UpdateSupplierParams(params *models.Supplier) error
-	GetAllSuppliers(limit, offset int) ([]*models.Supplier, error)
+	GetAllSuppliers(limit, offset int, search string) ([]*models.Supplier, error)
 	GetSupplier(supplierId int) (*models.Supplier, error)
 	DeleteSupplier(supplierId int) error
 }

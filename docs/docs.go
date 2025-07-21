@@ -1024,6 +1024,12 @@ const docTemplate = `{
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1253,6 +1259,12 @@ const docTemplate = `{
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2670,6 +2682,12 @@ const docTemplate = `{
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {

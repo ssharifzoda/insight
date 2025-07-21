@@ -49,6 +49,7 @@ func (h *Handler) addBrand(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
+// @Param search query string false "Введите данные"
 // @Success 200 {object} utils.DataResponse
 // @Failure 500 {object} utils.DataResponse
 // @Failure 400 {object} utils.DataResponse
@@ -69,7 +70,8 @@ func (h *Handler) getAllBrands(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	brands, err := h.service.GetAllBrands(page, limit)
+	search := r.URL.Query().Get("search")
+	brands, err := h.service.GetAllBrands(page, limit, search)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
@@ -177,6 +179,7 @@ func (h *Handler) addNewCategory(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
+// @Param search query string false "Введите данные"
 // @Success 200 {object} utils.DataResponse
 // @Failure 500 {object} utils.DataResponse
 // @Failure 400 {object} utils.DataResponse
@@ -197,7 +200,8 @@ func (h *Handler) getAllCategories(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	categories, err := h.service.GetAllCategories(page, limit)
+	search := r.URL.Query().Get("search")
+	categories, err := h.service.GetAllCategories(page, limit, search)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)

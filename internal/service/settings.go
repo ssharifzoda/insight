@@ -26,9 +26,9 @@ func (s *SettingService) AddBrand(params *models.Brand) error {
 	return s.db.AddBrand(params)
 }
 
-func (s *SettingService) GetAllBrands(page, limit int) ([]*models.Brand, error) {
+func (s *SettingService) GetAllBrands(page, limit int, search string) ([]*models.Brand, error) {
 	offset := (limit * page) - limit
-	return s.db.GetAllBrands(limit, offset)
+	return s.db.GetAllBrands(limit, offset, search)
 }
 
 func (s *SettingService) EditBrand(brand *models.Brand) error {
@@ -42,9 +42,9 @@ func (s *SettingService) DeleteBrand(brandId int) error {
 func (s *SettingService) AddNewCategory(category *models.Category) error {
 	return s.db.AddNewCategory(category)
 }
-func (s *SettingService) GetAllCategories(page, limit int) ([]*models.Category, error) {
+func (s *SettingService) GetAllCategories(page, limit int, search string) (result []*models.Category, err error) {
 	offset := (limit * page) - limit
-	return s.db.GetAllCategories(limit, offset)
+	return s.db.GetAllCategories(limit, offset, search)
 }
 func (s *SettingService) EditCategory(category *models.Category) error {
 	return s.db.EditCategory(category)

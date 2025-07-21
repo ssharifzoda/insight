@@ -1018,6 +1018,12 @@
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1247,6 +1253,12 @@
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2664,6 +2676,12 @@
                         "name": "limit",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Введите данные",
+                        "name": "search",
+                        "in": "query"
                     }
                 ],
                 "responses": {

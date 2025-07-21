@@ -80,6 +80,7 @@ func (h *Handler) editSupplier(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param page query string true "Введите данные"
 // @Param limit query string true "Введите данные"
+// @Param search query string false "Введите данные"
 // @Success 200 {object} utils.DataResponse
 // @Failure 500 {object} utils.DataResponse
 // @Failure 400 {object} utils.DataResponse
@@ -100,7 +101,8 @@ func (h *Handler) getAllSuppliers(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	suppliers, err := h.service.GetAllSuppliers(page, limit)
+	search := r.URL.Query().Get("search")
+	suppliers, err := h.service.GetAllSuppliers(page, limit, search)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)

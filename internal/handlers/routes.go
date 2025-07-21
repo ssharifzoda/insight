@@ -92,7 +92,8 @@ func (h *Handler) InitRoutes() *mux.Router {
 	settingsGr.HandleFunc("/brands", h.editBrand).Methods(http.MethodPut, http.MethodOptions)
 	settingsGr.HandleFunc("/brands", h.deleteBrand).Methods(http.MethodDelete, http.MethodOptions)
 	settingsGr.HandleFunc("/categories", h.addNewCategory).Methods(http.MethodPost, http.MethodOptions)
-	settingsGr.HandleFunc("/categories", h.getAllCategories).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/categories", h.getAllCategories).
+		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
 	settingsGr.HandleFunc("/categories", h.editCategory).Methods(http.MethodPut, http.MethodOptions)
 	settingsGr.HandleFunc("/categories", h.deleteCategory).Methods(http.MethodDelete, http.MethodOptions)
 	settingsGr.HandleFunc("/cities", h.addNewCity).Methods(http.MethodPost, http.MethodOptions)

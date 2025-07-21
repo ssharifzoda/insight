@@ -46,7 +46,7 @@ func (u *UserDb) UpdateUserParams(params *models.User) error {
 
 func (u *UserDb) GetAllUsers(limit, offset int) ([]*models.User, error) {
 	var users []*models.User
-	err := u.conn.Table("users").Where("active", true).Limit(limit).Offset(offset).Find(&users).Error
+	err := u.conn.Table("users").Where("role_id not in (4,5) and active = 1").Limit(limit).Offset(offset).Find(&users).Error
 	return users, err
 }
 

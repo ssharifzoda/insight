@@ -2,11 +2,7 @@ package server
 
 import (
 	"context"
-	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/messaging"
-	"google.golang.org/api/option"
-	"insight/pkg/consts"
-	"log"
 	"net/http"
 	"time"
 )
@@ -28,18 +24,19 @@ func (s *Server) Run(port string, handler http.Handler) error {
 }
 
 func (s *Server) FirebaseConn() *messaging.Client {
-	opt := option.WithCredentialsFile(consts.FirebaseKeyFilePath)
-	app, err := firebase.NewApp(s.ctx, nil, opt)
-	if err != nil {
-		log.Printf("Ошибка инициализации Firebase: %v", err)
-		return nil
-	}
-	client, err := app.Messaging(s.ctx)
-	if err != nil {
-		log.Printf("Ошибка создания клиента сообщений: %v", err)
-		return nil
-	}
-	return client
+	//opt := option.WithCredentialsFile(consts.FirebaseKeyFilePath)
+	//app, err := firebase.NewApp(s.ctx, nil, opt)
+	//if err != nil {
+	//	log.Printf("Ошибка инициализации Firebase: %v", err)
+	//	return nil
+	//}
+	//client, err := app.Messaging(s.ctx)
+	//if err != nil {
+	//	log.Printf("Ошибка создания клиента сообщений: %v", err)
+	//	return nil
+	//}
+	//return client
+	return nil
 }
 func (s *Server) Shutdown(ctx context.Context) error {
 	return s.httpServer.Shutdown(ctx)

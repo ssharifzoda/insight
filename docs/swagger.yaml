@@ -957,6 +957,10 @@ paths:
         name: limit
         required: true
         type: string
+      - description: Введите данные
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:
@@ -1104,6 +1108,10 @@ paths:
         in: query
         name: limit
         required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: search
         type: string
       produces:
       - application/json
@@ -1982,6 +1990,10 @@ paths:
         in: query
         name: limit
         required: true
+        type: string
+      - description: Введите данные
+        in: query
+        name: search
         type: string
       produces:
       - application/json
