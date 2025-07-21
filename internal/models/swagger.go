@@ -32,3 +32,9 @@ type ReportUpdate struct {
 	PlantDiseases  int    `json:"plant_diseases"`
 	DisDescription string `json:"dis_description"`
 }
+
+type Migration struct {
+	Id        int    `json:"id"`
+	Migration string `json:"migration"`
+	Batch     int    `json:"batch"`
+}

@@ -22,7 +22,7 @@ func NewHandler(s *service.Service, logger logging.Logger) *Handler {
 func (h *Handler) InitRoutes() *mux.Router {
 	main := mux.NewRouter()
 	router := main.PathPrefix("/api/v1").Subrouter()
-	//router.Use(CORS, RecoverAllPanic)
+	router.Use(h.CORS, h.RecoverAllPanic)
 	router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 
 	//Auth

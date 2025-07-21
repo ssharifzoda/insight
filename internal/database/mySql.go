@@ -6,6 +6,8 @@ import (
 	mySqlDriver "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"insight/internal/models"
+	"insight/pkg/consts"
 	"log"
 	"os"
 )
@@ -27,7 +29,39 @@ func NewMySqlGorm() (*gorm.DB, error) {
 		log.Printf("❌ MySQL -> Open error: %s", err.Error())
 		return nil, err
 	}
-
+	SqlRunner(conn)
 	log.Println("✅ MySQL Connection success:", Host)
 	return conn, nil
+}
+
+func SqlRunner(conn *gorm.DB) {
+	var check *models.Migration
+	err := conn.Table("migrations").Last(&check).Error
+	if err != nil {
+		log.Fatal(err)
+	}
+	if check.Batch == 0 {
+		tx := conn.Begin()
+		fileByte, err := os.ReadFile(consts.SqlFilesPath + check.Migration)
+		if err != nil {
+			tx.Rollback()
+			log.Fatal(err)
+		}
+		err = tx.Exec(string(fileByte)).Error
+		if err != nil {
+			tx.Rollback()
+			log.Fatal(err)
+		}
+		err = tx.Table("migrations").Where("id", check.Id).UpdateColumn("batch", "1").Error
+		if err != nil {
+			tx.Rollback()
+			log.Fatal(err)
+		}
+		err = tx.Commit().Error
+		if err != nil {
+			tx.Rollback()
+			log.Fatal(err)
+		}
+	}
+	return
 }

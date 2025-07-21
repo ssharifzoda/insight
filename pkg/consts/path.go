@@ -8,4 +8,5 @@ const (
 	PDF                   = ".pdf"
 	NotificationPrefix    = "Notify_"
 	FirebaseKeyFilePath   = "internal/config/firebaseKeyFile.json"
+	SqlFilesPath          = "pkg/sql/"
 )
