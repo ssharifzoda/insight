@@ -7,7 +7,6 @@ const (
 	CountErrResponse           = "Задайте количество записей"
 	PageErrResponse            = "Задайте страницу"
 	FilterError                = "Ошибка фильтрации"
-	StrconvErr                 = "strconv.Atoi: parsing \\\"\\\": invalid syntax"
 	InvalidDigitalParams       = "Только цифры"
 	InvalidBrandId             = "Укажите идентификатор бренда"
 	InvalidIdentificationParam = "Идентификатором поиска служат только цифры"
@@ -20,6 +19,4 @@ const (
 	InternalServerError        = "внутренняя ошибка сервера"
 	Success                    = "Успешно"
 	AccessDenied               = "Недостаточно прав. Обратитесь к администратору"
-	InvalidUserCrops           = "Укажите культуры с которыми будет работать пользователь"
-	InvalidUserGender          = "Укажите пол пользователя"
 )
