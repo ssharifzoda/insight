@@ -9,7 +9,7 @@
 
 
 rename table sale_points to sale_point_types;
-create table permissions(
+create table 'permissions'(
                             id serial primary key,
                             name text not null,
                             active bool default true,
