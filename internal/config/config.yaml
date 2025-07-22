@@ -7,13 +7,3 @@ db:
   dbName: "insight"
   username: "root"
 
-job:
-  passJobTime: 10
-
-mail:
-  host: "smtp.gmail.com"
-  port: 465
-  username: ""
-  password: ""
-  address: ""
-

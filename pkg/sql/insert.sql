@@ -24,7 +24,8 @@ update user_auth set pass_reset_at = current_timestamp where pass_reset_at is nu
 
 -- -- -- -- --
 insert into permissions(name)
-values ('Просмотр оборотов'),
+values ('Технический доступ'),
+       ('Просмотр оборотов'),
        ('Скачивание отчета по оборотам'),
        ('Просмотр всех пользователей'),
        ('Удаление пользователя'),
