@@ -271,7 +271,7 @@ definitions:
         type: integer
       message: {}
     type: object
-host: test-go.insight.tj
+host: localhost:5005
 info:
   contact: {}
   description: Api INSIGHT project
@@ -1371,6 +1371,34 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: editCity
+      tags:
+      - Settings
+  /settings/download-logs:
+    get:
+      description: Просмотр логов системы
+      operationId: downloadSystemLogs
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Скачивание логов
       tags:
       - Settings
   /settings/permissions:

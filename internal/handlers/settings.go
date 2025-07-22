@@ -2,11 +2,14 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -734,4 +737,43 @@ func (h *Handler) getAllPermissions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.Response(w, permissions)
+}
+
+// @Summary Скачивание логов
+// @Security ApiKeyAuth
+// @Tags Settings
+// @Description Просмотр логов системы
+// @ID downloadSystemLogs
+// @Produce json
+// @Success 200 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
+// @Router /settings/download-logs [get]
+func (h *Handler) downloadSystemLogs(w http.ResponseWriter, r *http.Request) {
+	filePath := consts.LogPath
+	file, err := os.Open(filePath)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+	info, err := os.Stat(filePath)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+	size := info.Size()
+	defer file.Close()
+	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=%s", info.Name()))
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Header().Set("Content-Transfer-Encoding", "binary")
+	w.Header().Set("Content-Length", fmt.Sprintf("%d", size))
+	_, err = io.Copy(w, file)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
 }

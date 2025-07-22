@@ -118,6 +118,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	settingsGr.HandleFunc("/roles", h.editRoleById).Methods(http.MethodPut, http.MethodOptions)
 	settingsGr.HandleFunc("/roles", h.deleteRole).Methods(http.MethodDelete, http.MethodOptions)
 	settingsGr.HandleFunc("/permissions", h.getAllPermissions).Methods(http.MethodGet, http.MethodOptions)
+	settingsGr.HandleFunc("/download-logs", h.downloadSystemLogs)
 
 	return router
 }
