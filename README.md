@@ -1,6 +1,7 @@
 ## Env example Params:
 DB_PASSWORD=password
-TOKEN_SECRET_KEY=32bytekey
+TOKEN_SECRET_KEY=your_secret_key
+KEY=thiskeymustbe32byte
 
 
 ## Swagger call:
