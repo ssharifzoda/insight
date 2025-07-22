@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"errors"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"insight/internal/models"
 	"insight/pkg/consts"
@@ -43,7 +44,7 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	userAuth, err := h.service.Authorization.GetTokenByUserId(user.Id)
+	userAuth, err := h.service.Authorization.GetAuthParamsByUserId(user.Id)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
@@ -60,6 +61,12 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.TemporaryPassResponse, 451, 0)
 		return
 	}
+	sessionId, err := uuid.NewUUID()
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
 	permissions, err := h.service.Authorization.GetUserPermission(user.Id)
 	if err != nil {
 		h.logger.Error(err)
@@ -67,14 +74,14 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//create token
-	accessToken, refreshToken, err := utils.GenerateTokens(user.Id, permissions)
+	accessToken, refreshToken, err := utils.GenerateTokens(user.Id, permissions, sessionId.String())
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	//save refreshToken
-	err = h.service.Authorization.UpdateRefreshToken(user.Id, accessToken, refreshToken)
+	//save sessionId
+	err = h.service.Authorization.UpdateAuthParams(user.Id, sessionId.String())
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
@@ -106,20 +113,20 @@ func (h *Handler) refreshToken(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.TokenIsEmpty, 401, 0)
 		return
 	}
-	userId, err := utils.ParseRefreshToken(refreshToken)
+	userId, _, sessionId, err := utils.ParseToken(refreshToken)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	userAuth, err := h.service.GetTokenByUserId(userId)
+	userAuth, err := h.service.GetAuthParamsByUserId(userId)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 
-	if refreshToken != userAuth.RefreshToken {
+	if sessionId != userAuth.SessionId {
 		h.logger.Error(consts.UserNotFound)
 		utils.ErrorResponse(w, consts.UserNotFound, 404, 0)
 		return
@@ -130,13 +137,14 @@ func (h *Handler) refreshToken(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	accessToken, refreshToken, err := utils.GenerateTokens(userId, permissions)
+	newSessionId, err := uuid.NewUUID()
+	accessToken, refreshToken, err := utils.GenerateTokens(userId, permissions, newSessionId.String())
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	err = h.service.Authorization.UpdateRefreshToken(userId, accessToken, refreshToken)
+	err = h.service.Authorization.UpdateAuthParams(userId, newSessionId.String())
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
@@ -209,13 +217,13 @@ func (h *Handler) logoutHandler(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
 		return
 	}
-	userId, err := utils.ParseRefreshToken(token)
+	userId, _, _, err := utils.ParseToken(token)
 	if err != nil {
 		h.logger.Error(consts.TokenIsEmpty)
 		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
 		return
 	}
-	err = h.service.Authorization.UpdateRefreshToken(userId, " ", " ")
+	err = h.service.Authorization.UpdateAuthParams(userId, "")
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)

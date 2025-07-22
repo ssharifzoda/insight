@@ -9,6 +9,7 @@ import (
 	"insight/pkg/consts"
 	"log"
 	"os"
+	"strings"
 )
 
 func NewMySqlGorm() (*gorm.DB, error) {
@@ -66,9 +67,14 @@ func SqlRunner(conn *gorm.DB) {
 	if err != nil {
 		log.Println(err)
 	}
-	err = conn.Exec(string(fileByte)).Error
-	if err != nil {
-		log.Println(err)
+	queries := strings.Split(string(fileByte), ";")
+	for _, query := range queries {
+		if strings.TrimSpace(query) != "" {
+			err := conn.Exec(query).Error
+			if err != nil {
+				log.Println(err)
+			}
+		}
 	}
 	return
 }

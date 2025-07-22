@@ -7,8 +7,8 @@ import (
 
 type Authorization interface {
 	GetUserPermission(userId int) ([]int, error)
-	UpdateRefreshToken(userId int, accessToken, refreshToken string) error
-	GetTokenByUserId(userId int) (*models.UserAuth, error)
+	UpdateAuthParams(userId int, sessionId string) error
+	GetAuthParamsByUserId(userId int) (*models.UserAuth, error)
 	ChangeUserPassword(request *models.ChangePassword) error
 }
 

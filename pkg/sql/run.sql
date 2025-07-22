@@ -1,15 +1,15 @@
-##drop table debtors, supplier_shops, users,password_resets;
+drop table debtors, supplier_shops, users,password_resets;
 
 
-#alter table notifications
-   # drop foreign key notifications_supplier_id_foreign;
+alter table notifications
+    drop foreign key notifications_supplier_id_foreign;
 
-#alter table notifications
-   # drop column supplier_id;
+alter table notifications
+    drop column supplier_id;
 
 
 rename table sale_points to sale_point_types;
-create table 'permissions'(
+create table  permissions(
                             id serial primary key,
                             name text not null,
                             active bool default true,
@@ -57,8 +57,7 @@ create table sale_points(
 
 create table user_auth(
                           user_id bigint unsigned references users(id),
-                          access_token text,
-                          refresh_token text,
+                          session_id text,
                           pass_reset_at timestamp,
                           temporary_pass smallint default 0,
                           updated_at timestamp default current_timestamp

@@ -21,16 +21,15 @@ func (a *AuthDb) GetUserPermission(userId int) ([]int, error) {
 	return permissions, err
 }
 
-func (a *AuthDb) UpdateRefreshToken(userId int, accessToken, refreshToken string) error {
+func (a *AuthDb) UpdateAuthParams(userId int, sessionId string) error {
 	var userAuth models.UserAuth
 	userAuth.UserId = userId
-	userAuth.RefreshToken = refreshToken
-	userAuth.AccessToken = accessToken
+	userAuth.SessionId = sessionId
 	err := a.conn.Table("user_auth").Where("user_id", userId).Save(&userAuth).Error
 	return err
 }
 
-func (a *AuthDb) GetTokenByUserId(userId int) (*models.UserAuth, error) {
+func (a *AuthDb) GetAuthParamsByUserId(userId int) (*models.UserAuth, error) {
 	var params *models.UserAuth
 	err := a.conn.Table("user_auth").Where("user_id", userId).First(&params).Error
 	return params, err

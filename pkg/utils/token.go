@@ -8,12 +8,13 @@ import (
 )
 
 type CustomClaims struct {
-	UserId      int `json:"username"`
-	Permissions []int
+	UserId      int    `json:"username"`
+	Permissions []int  `json:"permissions"`
+	SessionId   string `json:"session_id"`
 	jwt.RegisteredClaims
 }
 
-func GenerateTokens(userId int, permissions []int) (string, string, error) {
+func GenerateTokens(userId int, permissions []int, sessionId string) (string, string, error) {
 
 	accessTokenSecret := []byte(os.Getenv("TOKEN_SECRET_KEY"))
 	refreshTokenSecret := []byte(os.Getenv("TOKEN_SECRET_KEY"))
@@ -21,6 +22,7 @@ func GenerateTokens(userId int, permissions []int) (string, string, error) {
 	accessClaims := CustomClaims{
 		UserId:      userId,
 		Permissions: permissions,
+		SessionId:   sessionId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 12)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -35,7 +37,8 @@ func GenerateTokens(userId int, permissions []int) (string, string, error) {
 	}
 
 	refreshClaims := CustomClaims{
-		UserId: userId,
+		UserId:    userId,
+		SessionId: sessionId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 15)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -51,19 +54,19 @@ func GenerateTokens(userId int, permissions []int) (string, string, error) {
 	return accessTokenString, refreshTokenString, nil
 }
 
-func ParseRefreshToken(refreshToken string) (int, error) {
-	token, err := jwt.ParseWithClaims(refreshToken, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+func ParseToken(param string) (int, []int, string, error) {
+	token, err := jwt.ParseWithClaims(param, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
 		}
 		return []byte(os.Getenv("TOKEN_SECRET_KEY")), nil
 	})
 	if err != nil {
-		return 0, nil
+		return 0, nil, "", err
 	}
 	claims, ok := token.Claims.(*CustomClaims)
 	if !ok {
-		return 0, errors.New("token claims are not of type")
+		return 0, nil, "", errors.New("token claims are not of type")
 	}
-	return claims.UserId, nil
+	return claims.UserId, claims.Permissions, claims.SessionId, nil
 }

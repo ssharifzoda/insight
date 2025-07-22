@@ -15,8 +15,7 @@ type ChangePassword struct {
 
 type UserAuth struct {
 	UserId        int        `json:"user_id"`
-	AccessToken   string     `json:"access_token"`
-	RefreshToken  string     `json:"refresh_token"`
+	SessionId     string     `json:"session_id"`
 	TemporaryPass int        `json:"temporary_pass"`
 	PassResetAt   *time.Time `json:"pass_reset_at"`
 	UpdatedAt     *time.Time `json:"updated_at"`

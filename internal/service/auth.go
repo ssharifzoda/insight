@@ -17,11 +17,11 @@ func NewAuthService(db database.Authorization) *AuthService {
 func (a *AuthService) GetUserPermission(userId int) ([]int, error) {
 	return a.db.GetUserPermission(userId)
 }
-func (a *AuthService) UpdateRefreshToken(userId int, accessToken, refreshToken string) error {
-	return a.db.UpdateRefreshToken(userId, accessToken, refreshToken)
+func (a *AuthService) UpdateAuthParams(userId int, sessionId string) error {
+	return a.db.UpdateAuthParams(userId, sessionId)
 }
-func (a *AuthService) GetTokenByUserId(userId int) (*models.UserAuth, error) {
-	return a.db.GetTokenByUserId(userId)
+func (a *AuthService) GetAuthParamsByUserId(userId int) (*models.UserAuth, error) {
+	return a.db.GetAuthParamsByUserId(userId)
 }
 func (a *AuthService) ChangeUserPassword(request *models.ChangePassword) error {
 	hash, err := utils.Hash(request.NewPassword)

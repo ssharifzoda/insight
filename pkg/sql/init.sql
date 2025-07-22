@@ -47,8 +47,7 @@ create table sale_points(
 
 create table user_auth(
     user_id bigint unsigned references users(id),
-    access_token text,
-    refresh_token text,
+    session_id text,
     pass_reset_at timestamp,
     temporary_pass smallint default 0,
     updated_at timestamp default current_timestamp

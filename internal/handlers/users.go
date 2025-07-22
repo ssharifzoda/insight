@@ -152,7 +152,7 @@ func (h *Handler) getUserById(w http.ResponseWriter, r *http.Request) {
 // @Failure default {object} utils.DataResponse
 // @Router /users/me [get]
 func (h *Handler) getMe(w http.ResponseWriter, r *http.Request) {
-	userId, err := utils.ParseRefreshToken(r.Header.Get("Authorization"))
+	userId, _, _, err := utils.ParseToken(r.Header.Get("Authorization"))
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.TokenIsEmpty, 400, 0)
