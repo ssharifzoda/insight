@@ -39,8 +39,9 @@ type NotificationInfo struct {
 }
 
 type ShopInfo struct {
-	ShopId   int    `json:"shop_id"`
-	ShopName string `json:"shop_name"`
+	ShopId      int    `json:"shop_id"`
+	ShopName    string `json:"shop_name"`
+	DeviceToken string `json:"device_token"`
 }
 
 type ShopList []*ShopInfo
