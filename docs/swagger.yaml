@@ -271,7 +271,7 @@ definitions:
         type: integer
       message: {}
     type: object
-host: localhost:5005
+host: test-go.insight.tj
 info:
   contact: {}
   description: Api INSIGHT project

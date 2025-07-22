@@ -1,11 +1,11 @@
-drop table debtors, supplier_shops, users,password_resets;
+##drop table debtors, supplier_shops, users,password_resets;
 
 
-alter table notifications
-    drop foreign key notifications_supplier_id_foreign;
+#alter table notifications
+   # drop foreign key notifications_supplier_id_foreign;
 
-alter table notifications
-    drop column supplier_id;
+#alter table notifications
+   # drop column supplier_id;
 
 
 rename table sale_points to sale_point_types;

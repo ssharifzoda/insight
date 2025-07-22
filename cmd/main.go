@@ -15,7 +15,7 @@ import (
 // @version 1.0.0
 // @description Api INSIGHT project
 
-// @host localhost:5005
+// @host test-go.insight.tj
 // @BasePath /api/v1
 
 // @securityDefinitions.apikey ApiKeyAuth
