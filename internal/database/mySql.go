@@ -6,7 +6,6 @@ import (
 	mySqlDriver "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"insight/internal/models"
 	"insight/pkg/consts"
 	"log"
 	"os"
@@ -35,33 +34,41 @@ func NewMySqlGorm() (*gorm.DB, error) {
 }
 
 func SqlRunner(conn *gorm.DB) {
-	var check *models.Migration
-	err := conn.Table("migrations").Last(&check).Error
+	//var check *models.Migration
+	//err := conn.Table("migrations").Last(&check).Error
+	//if err != nil {
+	//	log.Println(err)
+	//}
+	//if check.Batch == 0 {
+	//	tx := conn.Begin()
+	//	fileByte, err := os.ReadFile(consts.SqlFilesPath + check.Migration)
+	//	if err != nil {
+	//		tx.Rollback()
+	//		log.Println(err)
+	//	}
+	//	err = tx.Exec(string(fileByte)).Error
+	//	if err != nil {
+	//		tx.Rollback()
+	//		log.Println(err)
+	//	}
+	//	err = tx.Table("migrations").Where("id", check.Id).UpdateColumn("batch", "1").Error
+	//	if err != nil {
+	//		tx.Rollback()
+	//		log.Println(err)
+	//	}
+	//	err = tx.Commit().Error
+	//	if err != nil {
+	//		tx.Rollback()
+	//		log.Println(err)
+	//	}
+	//}
+	fileByte, err := os.ReadFile(consts.SqlFilesPath + "run.sql")
 	if err != nil {
 		log.Println(err)
 	}
-	if check.Batch == 0 {
-		tx := conn.Begin()
-		fileByte, err := os.ReadFile(consts.SqlFilesPath + check.Migration)
-		if err != nil {
-			tx.Rollback()
-			log.Println(err)
-		}
-		err = tx.Exec(string(fileByte)).Error
-		if err != nil {
-			tx.Rollback()
-			log.Println(err)
-		}
-		err = tx.Table("migrations").Where("id", check.Id).UpdateColumn("batch", "1").Error
-		if err != nil {
-			tx.Rollback()
-			log.Println(err)
-		}
-		err = tx.Commit().Error
-		if err != nil {
-			tx.Rollback()
-			log.Println(err)
-		}
+	err = conn.Exec(string(fileByte)).Error
+	if err != nil {
+		log.Println(err)
 	}
 	return
 }
