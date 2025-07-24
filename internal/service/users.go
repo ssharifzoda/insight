@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/google/uuid"
 	"insight/internal/database"
 	"insight/internal/models"
 	"insight/pkg/utils"
@@ -14,13 +15,25 @@ func NewUserService(db database.Users) *UserService {
 	return &UserService{db: db}
 }
 
-func (u *UserService) AddNewUser(params *models.User) error {
-	passHash, err := utils.Hash(params.Password)
+func (u *UserService) AddNewUser(params *models.User) (*models.User, error) {
+	pass, err := uuid.NewUUID()
 	if err != nil {
-		return err
+		return nil, err
+	}
+	passHash, err := utils.Hash(pass.String())
+	if err != nil {
+		return nil, err
 	}
 	params.Password = passHash
-	return u.db.AddNewUser(params)
+	userResponse, err := u.db.AddNewUser(params)
+	if err != nil {
+		return nil, err
+	}
+	userResponse.Password, err = utils.DeHash(userResponse.Password)
+	if err != nil {
+		return nil, err
+	}
+	return userResponse, nil
 }
 
 func (u *UserService) UpdateUserParams(params *models.User) error {

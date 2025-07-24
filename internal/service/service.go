@@ -40,7 +40,7 @@ type Settings interface {
 }
 
 type Users interface {
-	AddNewUser(params *models.User) error
+	AddNewUser(params *models.User) (*models.User, error)
 	UpdateUserParams(params *models.User) error
 	GetAllUsers(page, limit int) ([]*models.User, error)
 	GetUserById(userId int) (*models.UserInfo, error)

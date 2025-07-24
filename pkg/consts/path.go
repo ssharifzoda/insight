@@ -10,4 +10,5 @@ const (
 	NotificationPrefix    = "Notify_"
 	FirebaseKeyFilePath   = "internal/config/firebaseKeyFile.json"
 	SqlFilesPath          = "pkg/sql/"
+	TemporaryPassPrefix   = "Insight_"
 )

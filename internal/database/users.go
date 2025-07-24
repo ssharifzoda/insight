@@ -15,29 +15,30 @@ func NewUserDb(conn *gorm.DB) *UserDb {
 	return &UserDb{conn: conn}
 }
 
-func (u *UserDb) AddNewUser(params *models.User) error {
+func (u *UserDb) AddNewUser(params *models.User) (*models.User, error) {
 	tx := u.conn.Begin()
 	err := tx.Table("users").Create(&params).Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return nil, err
 	}
 	passReset := time.Now().AddDate(0, 3, 0)
 	auth := &models.UserAuth{
-		UserId:      params.Id,
-		PassResetAt: &passReset,
+		UserId:        params.Id,
+		PassResetAt:   &passReset,
+		TemporaryPass: 1,
 	}
 	err = tx.Table("user_auth").Create(&auth).Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return nil, err
 	}
 	err = tx.Commit().Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return nil, err
 	}
-	return nil
+	return params, nil
 }
 
 func (u *UserDb) UpdateUserParams(params *models.User) error {
