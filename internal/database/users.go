@@ -45,10 +45,14 @@ func (u *UserDb) UpdateUserParams(params *models.User) error {
 	return u.conn.Table("users").Updates(&params).Error
 }
 
-func (u *UserDb) GetAllUsers(limit, offset int) ([]*models.User, error) {
-	var users []*models.User
-	err := u.conn.Table("users").Where("role_id not in (4,5) and active = 1").Limit(limit).Offset(offset).Find(&users).Error
-	return users, err
+func (u *UserDb) GetAllUsers(limit, offset int) ([]*models.User, int, error) {
+	var (
+		users []*models.User
+		count int64
+	)
+	tx := u.conn.Table("users").Where("role_id not in (4,5) and active = 1").Limit(limit).Offset(offset).Find(&users)
+	tx.Count(&count)
+	return users, int(count), tx.Error
 }
 
 func (u *UserDb) GetUserById(userId int) (*models.UserInfo, error) {

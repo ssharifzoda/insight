@@ -39,7 +39,7 @@ func (n *NotificationService) CreateNewNotification(message *models.Notification
 	utils.FirebaseSender(*notification, n.firebaseConn)
 	return nil
 }
-func (n *NotificationService) GetAllNotifications(page, limit int) ([]*models.Notification, error) {
+func (n *NotificationService) GetAllNotifications(page, limit int) ([]*models.Notification, int, error) {
 	return n.db.GetAllNotifications(limit, page*limit-limit)
 }
 

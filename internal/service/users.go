@@ -40,7 +40,7 @@ func (u *UserService) UpdateUserParams(params *models.User) error {
 	return u.db.UpdateUserParams(params)
 }
 
-func (u *UserService) GetAllUsers(page, limit int) ([]*models.User, error) {
+func (u *UserService) GetAllUsers(page, limit int) ([]*models.User, int, error) {
 	offset := (page * limit) - limit
 	return u.db.GetAllUsers(limit, offset)
 }

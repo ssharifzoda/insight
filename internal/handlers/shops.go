@@ -6,6 +6,7 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
+	"math"
 	"net/http"
 	"strconv"
 )
@@ -102,13 +103,18 @@ func (h *Handler) getAllShops(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	search := r.URL.Query().Get("search")
-	shops, err := h.service.GetAllShops(page, limit, search)
+	shops, count, err := h.service.GetAllShops(page, limit, search)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, shops)
+	utils.Response(w, map[string]interface{}{
+		"reports":     shops,
+		"total_count": count,
+		"count":       len(shops),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary getShop

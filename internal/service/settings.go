@@ -26,7 +26,7 @@ func (s *SettingService) AddBrand(params *models.Brand) (*models.Brand, error) {
 	return s.db.AddBrand(params)
 }
 
-func (s *SettingService) GetAllBrands(page, limit int, search string) ([]*models.Brand, error) {
+func (s *SettingService) GetAllBrands(page, limit int, search string) ([]*models.Brand, int, error) {
 	offset := (limit * page) - limit
 	return s.db.GetAllBrands(limit, offset, search)
 }
@@ -42,7 +42,7 @@ func (s *SettingService) DeleteBrand(brandId int) error {
 func (s *SettingService) AddNewCategory(category *models.Category) (*models.Category, error) {
 	return s.db.AddNewCategory(category)
 }
-func (s *SettingService) GetAllCategories(page, limit int, search string) (result []*models.Category, err error) {
+func (s *SettingService) GetAllCategories(page, limit int, search string) (result []*models.Category, total int, err error) {
 	offset := (limit * page) - limit
 	return s.db.GetAllCategories(limit, offset, search)
 }
@@ -56,7 +56,7 @@ func (s *SettingService) DeleteCategory(categoryId int) error {
 func (s *SettingService) AddNewCity(city *models.City) (*models.City, error) {
 	return s.db.AddNewCity(city)
 }
-func (s *SettingService) GetAllCities(page, limit int) (result []*models.City, err error) {
+func (s *SettingService) GetAllCities(page, limit int) (result []*models.City, total int, err error) {
 	offset := (limit * page) - limit
 	return s.db.GetAllCities(limit, offset)
 }
@@ -69,7 +69,7 @@ func (s *SettingService) DeleteCity(cityId int) error {
 func (s *SettingService) AddNewPromotion(promotion *models.Promotion) (*models.Promotion, error) {
 	return s.db.AddNewPromotion(promotion)
 }
-func (s *SettingService) GetAllPromotions(page, limit int) (result []*models.Promotion, err error) {
+func (s *SettingService) GetAllPromotions(page, limit int) (result []*models.Promotion, total int, err error) {
 	offset := (page * limit) - limit
 	return s.db.GetAllPromotions(limit, offset)
 }
@@ -87,7 +87,7 @@ func (s *SettingService) DeletePromotion(promotionId int) error {
 func (s *SettingService) AddNewRole(role *models.RoleInput) (*models.Role, error) {
 	return s.db.AddNewRole(role)
 }
-func (s *SettingService) GetAllRoles(page, limit int) (result []*models.Role, err error) {
+func (s *SettingService) GetAllRoles(page, limit int) (result []*models.Role, total int, err error) {
 	offset := (page * limit) - limit
 	return s.db.GetAllRoles(limit, offset)
 }

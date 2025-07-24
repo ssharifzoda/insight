@@ -7,6 +7,7 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
+	"math"
 	"net/http"
 	"strconv"
 )
@@ -133,13 +134,18 @@ func (h *Handler) getAllProducts(w http.ResponseWriter, r *http.Request) {
 		CategoryId: categoryId,
 		Search:     search,
 	}
-	products, err := h.service.Products.GetAllProducts(page, limit, &filter)
+	products, count, err := h.service.Products.GetAllProducts(page, limit, &filter)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, products)
+	utils.Response(w, map[string]interface{}{
+		"reports":     products,
+		"total_count": count,
+		"count":       len(products),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary getProduct

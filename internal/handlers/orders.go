@@ -86,7 +86,7 @@ func (h *Handler) getAllOrders(w http.ResponseWriter, r *http.Request) {
 	filter.SupplierId = supplierId
 	filter.ShopId = shopId
 	*filter.Status = status
-	orders, err := h.service.Orders.GetAllOrders(filter)
+	orders, _, err := h.service.Orders.GetAllOrders(filter)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)

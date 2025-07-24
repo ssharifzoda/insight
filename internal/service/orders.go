@@ -16,7 +16,7 @@ func NewOrderService(db database.Orders) *OrderService {
 func (o *OrderService) AddNewOrder(order *models.OrderInput) error {
 	return o.db.AddNewOrder(order)
 }
-func (o *OrderService) GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, err error) {
+func (o *OrderService) GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, total int, err error) {
 	return o.db.GetAllOrders(filter)
 }
 

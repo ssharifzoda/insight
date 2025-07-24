@@ -53,7 +53,7 @@ func (o *OrderDb) AddNewOrder(orderParams *models.OrderInput) error {
 	return nil
 }
 
-func (o *OrderDb) GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, err error) {
+func (o *OrderDb) GetAllOrders(filter *models.OrderFilter) (orders []*models.Order, totalCont int, err error) {
 	tx := o.conn.Table("orders as o")
 	if filter.Status != nil {
 		tx = tx.Where("o.status", filter.Status)
@@ -70,7 +70,9 @@ func (o *OrderDb) GetAllOrders(filter *models.OrderFilter) (orders []*models.Ord
 		tx = tx.Where("o.created_at between ? and ?", filter.DateFrom, filter.DateTo)
 	}
 	tx = tx.Find(&orders)
-	return orders, nil
+	var total int64
+	err = tx.Table("orders").Count(&total).Error
+	return orders, int(total), err
 }
 
 func (o *OrderDb) GetOrderById(orderId int) (order *models.OrderInfo, err error) {

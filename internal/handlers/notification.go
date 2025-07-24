@@ -6,6 +6,7 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
+	"math"
 	"net/http"
 	"strconv"
 )
@@ -70,13 +71,18 @@ func (h *Handler) getAllNotifications(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	notifications, err := h.service.Notifications.GetAllNotifications(page, limit)
+	notifications, count, err := h.service.Notifications.GetAllNotifications(page, limit)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, notifications)
+	utils.Response(w, map[string]interface{}{
+		"reports":     notifications,
+		"total_count": count,
+		"count":       len(notifications),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary getNotification

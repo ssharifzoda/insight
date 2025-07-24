@@ -20,13 +20,13 @@ func (p *ProductService) AddNewProduct(product *models.Product) (*models.Product
 	path := consts.GlobalLogoFilePath + product.Name + time.Now().Format(time.DateOnly)
 	err := utils.SaveImageFromBase64(product.Image, path)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	product.Image = path
-	return product, p.db.AddNewProduct(product)
+	return p.db.AddNewProduct(product)
 }
 
-func (p *ProductService) GetAllProducts(page, limit int, filter *models.ProductFilter) ([]*models.Product, error) {
+func (p *ProductService) GetAllProducts(page, limit int, filter *models.ProductFilter) ([]*models.Product, int, error) {
 	offset := (page * limit) - limit
 	return p.db.GetAllProducts(limit, offset, filter)
 }

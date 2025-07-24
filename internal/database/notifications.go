@@ -46,10 +46,14 @@ func (n *NotificationDb) CreateNewNotification(message *models.NotificationInput
 	return notify.Id, nil
 }
 
-func (n *NotificationDb) GetAllNotifications(limit, offset int) ([]*models.Notification, error) {
-	var result []*models.Notification
+func (n *NotificationDb) GetAllNotifications(limit, offset int) ([]*models.Notification, int, error) {
+	var (
+		result []*models.Notification
+		total  int64
+	)
 	err := n.conn.Where("status = 1").Limit(limit).Offset(offset).Find(&result).Error
-	return result, err
+	err = n.conn.Table("notifications").Count(&total).Error
+	return result, int(total), err
 }
 
 func (n *NotificationDb) GetNotificationById(notificationId int) (*models.NotificationInfo, error) {

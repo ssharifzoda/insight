@@ -8,6 +8,7 @@ import (
 	"insight/pkg/consts"
 	"insight/pkg/utils"
 	"io"
+	"math"
 	"net/http"
 	"os"
 	"strconv"
@@ -74,13 +75,18 @@ func (h *Handler) getAllBrands(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	search := r.URL.Query().Get("search")
-	brands, err := h.service.GetAllBrands(page, limit, search)
+	brands, count, err := h.service.GetAllBrands(page, limit, search)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, brands)
+	utils.Response(w, map[string]interface{}{
+		"reports":     brands,
+		"total_count": count,
+		"count":       len(brands),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary editBrand
@@ -204,13 +210,18 @@ func (h *Handler) getAllCategories(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	search := r.URL.Query().Get("search")
-	categories, err := h.service.GetAllCategories(page, limit, search)
+	categories, count, err := h.service.GetAllCategories(page, limit, search)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, categories)
+	utils.Response(w, map[string]interface{}{
+		"reports":     categories,
+		"total_count": count,
+		"count":       len(categories),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary editCategory
@@ -332,13 +343,18 @@ func (h *Handler) getAllCities(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	categories, err := h.service.GetAllCities(page, limit)
+	cities, count, err := h.service.GetAllCities(page, limit)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, categories)
+	utils.Response(w, map[string]interface{}{
+		"reports":     cities,
+		"total_count": count,
+		"count":       len(cities),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary editCity
@@ -460,13 +476,18 @@ func (h *Handler) getAllPromotions(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	promotions, err := h.service.GetAllPromotions(page, limit)
+	promotions, count, err := h.service.GetAllPromotions(page, limit)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, promotions)
+	utils.Response(w, map[string]interface{}{
+		"reports":     promotions,
+		"total_count": count,
+		"count":       len(promotions),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary getPromotionById
@@ -618,13 +639,18 @@ func (h *Handler) getAllRoles(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	promotions, err := h.service.GetAllRoles(page, limit)
+	promotions, count, err := h.service.GetAllRoles(page, limit)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, promotions)
+	utils.Response(w, map[string]interface{}{
+		"reports":     promotions,
+		"total_count": count,
+		"count":       len(promotions),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary getRoleById

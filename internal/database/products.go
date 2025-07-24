@@ -18,12 +18,12 @@ func (p *ProductDb) AddNewProduct(product *models.Product) (*models.Product, err
 	return product, p.conn.Table("products").Create(&product).Error
 }
 
-func (p *ProductDb) GetAllProducts(limit, offset int, filter *models.ProductFilter) (result []*models.Product, err error) {
+func (p *ProductDb) GetAllProducts(limit, offset int, filter *models.ProductFilter) (result []*models.Product, totalCount int, err error) {
 	tx := p.conn.Table("products").Where("status = 1")
 	if filter != nil {
 		if filter.Search != "" {
 			tx = tx.Where("name LIKE ?", "%"+filter.Search+"%").Find(&result)
-			return result, tx.Error
+			return result, 0, tx.Error
 		}
 		if filter.SupplierId != 0 {
 			tx = tx.Where("supplier_id = ?", filter.SupplierId)
@@ -36,7 +36,9 @@ func (p *ProductDb) GetAllProducts(limit, offset int, filter *models.ProductFilt
 		}
 	}
 	tx = tx.Limit(limit).Offset(offset).Order("order_number DESC").Find(&result)
-	return result, tx.Error
+	var count int64
+	tx.Count(&count)
+	return result, int(count), tx.Error
 }
 func (p *ProductDb) GetProductById(productId int) (result *models.Product, err error) {
 	return result, p.conn.Table("products").Where("status = 1 and id = ?", productId).First(&result).Error

@@ -6,6 +6,7 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
+	"math"
 	"net/http"
 	"strconv"
 )
@@ -100,13 +101,18 @@ func (h *Handler) getAllUsers(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.CountErrResponse, 400, 0)
 		return
 	}
-	users, err := h.service.GetAllUsers(page, limit)
+	users, count, err := h.service.GetAllUsers(page, limit)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, users)
+	utils.Response(w, map[string]interface{}{
+		"reports":     users,
+		"total_count": count,
+		"count":       len(users),
+		"total_page":  int(math.Ceil(float64(count) / float64(limit))),
+	})
 }
 
 // @Summary getUserById

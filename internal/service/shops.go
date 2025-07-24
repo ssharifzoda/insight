@@ -21,7 +21,7 @@ func (s *ShopService) UpdateShopParams(params *models.Shop) error {
 	return s.db.UpdateShopParams(params)
 }
 
-func (s *ShopService) GetAllShops(page, limit int, search string) ([]*models.Shop, error) {
+func (s *ShopService) GetAllShops(page, limit int, search string) ([]*models.Shop, int, error) {
 	offset := (page * limit) - limit
 	return s.db.GetAllShops(limit, offset, search)
 }

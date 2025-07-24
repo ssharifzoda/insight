@@ -22,15 +22,17 @@ func (s *SupplierDb) UpdateSupplierParams(params *models.Supplier) error {
 	return s.conn.Table("suppliers").Where("id").Updates(*params).Error
 }
 
-func (s *SupplierDb) GetAllSuppliers(limit, offset int, search string) ([]*models.Supplier, error) {
+func (s *SupplierDb) GetAllSuppliers(limit, offset int, search string) ([]*models.Supplier, int, error) {
 	var shops []*models.Supplier
 	tx := s.conn.Table("suppliers").Where("status", 1)
 	if search != "" {
 		tx = tx.Where("name LIKE ?", "%"+search+"%").Find(&shops)
-		return shops, tx.Error
+		return shops, 0, tx.Error
 	}
 	tx = tx.Limit(limit).Offset(offset).Order("order_number DESC").Find(&shops)
-	return shops, tx.Error
+	var count int64
+	tx.Count(&count)
+	return shops, int(count), tx.Error
 }
 func (s *SupplierDb) GetSupplier(supplierId int) (*models.Supplier, error) {
 	var shop *models.Supplier
