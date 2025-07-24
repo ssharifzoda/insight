@@ -14,24 +14,24 @@ type Authorization interface {
 }
 
 type Settings interface {
-	AddBrand(params *models.Brand) error
+	AddBrand(params *models.Brand) (*models.Brand, error)
 	GetAllBrands(page, limit int, search string) ([]*models.Brand, error)
 	EditBrand(brand *models.Brand) error
 	DeleteBrand(brandId int) error
-	AddNewCategory(category *models.Category) error
+	AddNewCategory(category *models.Category) (*models.Category, error)
 	GetAllCategories(limit, offset int, search string) (result []*models.Category, err error)
 	EditCategory(category *models.Category) error
 	DeleteCategory(categoryId int) error
 	DeleteCity(cityId int) error
 	EditCity(city *models.City) error
 	GetAllCities(page, limit int) (result []*models.City, err error)
-	AddNewCity(city *models.City) error
-	AddNewPromotion(promotion *models.Promotion) error
+	AddNewCity(city *models.City) (*models.City, error)
+	AddNewPromotion(promotion *models.Promotion) (*models.Promotion, error)
 	GetAllPromotions(page, limit int) (result []*models.Promotion, err error)
 	GetPromotionById(promotionId int) (result *models.PromotionInfo, err error)
 	EditPromotion(promotion *models.Promotion) error
 	DeletePromotion(promotionId int) error
-	AddNewRole(role *models.RoleInput) error
+	AddNewRole(role *models.RoleInput) (*models.Role, error)
 	GetAllRoles(limit, offset int) (result []*models.Role, err error)
 	GetRoleById(roleId int) (result *models.RoleInfo, err error)
 	EditRole(role *models.RoleInput) error
@@ -49,7 +49,7 @@ type Users interface {
 }
 
 type Shops interface {
-	AddNewShop(params *models.Shop) error
+	AddNewShop(params *models.Shop) (*models.Shop, error)
 	UpdateShopParams(params *models.Shop) error
 	GetAllShops(page, limit int, search string) ([]*models.Shop, error)
 	GetShop(shopId int) (*models.Shop, error)
@@ -57,7 +57,7 @@ type Shops interface {
 }
 
 type Suppliers interface {
-	AddNewSupplier(params *models.Supplier) error
+	AddNewSupplier(params *models.Supplier) (*models.Supplier, error)
 	UpdateSupplierParams(params *models.Supplier) error
 	GetAllSuppliers(page, limit int, search string) ([]*models.Supplier, error)
 	GetSupplier(supplierId int) (*models.Supplier, error)
@@ -65,7 +65,7 @@ type Suppliers interface {
 }
 
 type Products interface {
-	AddNewProduct(product *models.Product) error
+	AddNewProduct(product *models.Product) (*models.Product, error)
 	GetAllProducts(limit, offset int, filter *models.ProductFilter) (result []*models.Product, err error)
 	GetProductById(productId int) (*models.Product, error)
 	EditProduct(product *models.Product) error

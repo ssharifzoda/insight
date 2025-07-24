@@ -13,7 +13,7 @@ func NewSupplierService(db database.Suppliers) *SupplierService {
 	return &SupplierService{db: db}
 }
 
-func (s *SupplierService) AddNewSupplier(params *models.Supplier) error {
+func (s *SupplierService) AddNewSupplier(params *models.Supplier) (*models.Supplier, error) {
 	return s.db.AddNewSupplier(params)
 }
 

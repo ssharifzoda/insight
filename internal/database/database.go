@@ -13,24 +13,24 @@ type Authorization interface {
 }
 
 type Setting interface {
-	AddBrand(params *models.Brand) error
+	AddBrand(params *models.Brand) (*models.Brand, error)
 	GetAllBrands(page, limit int, search string) ([]*models.Brand, error)
 	EditBrand(brand *models.Brand) error
 	DeleteBrand(brandId int) error
-	AddNewCategory(category *models.Category) error
+	AddNewCategory(category *models.Category) (*models.Category, error)
 	GetAllCategories(limit, offset int, search string) (result []*models.Category, err error)
 	EditCategory(category *models.Category) error
 	DeleteCategory(categoryId int) error
 	DeleteCity(cityId int) error
 	EditCity(city *models.City) error
 	GetAllCities(limit, offset int) (result []*models.City, err error)
-	AddNewCity(city *models.City) error
-	AddNewPromotion(promotion *models.Promotion) error
+	AddNewCity(city *models.City) (*models.City, error)
+	AddNewPromotion(promotion *models.Promotion) (*models.Promotion, error)
 	GetAllPromotions(limit, offset int) (result []*models.Promotion, err error)
 	GetPromotionById(promotionId int) (result *models.PromotionInfo, err error)
 	EditPromotion(promotion *models.Promotion) error
 	DeletePromotion(promotionId int) error
-	AddNewRole(role *models.RoleInput) error
+	AddNewRole(role *models.RoleInput) (*models.Role, error)
 	GetAllRoles(limit, offset int) (result []*models.Role, err error)
 	GetRoleById(roleId int) (result *models.RoleInfo, err error)
 	EditRole(role *models.RoleInput) error
@@ -48,14 +48,14 @@ type Users interface {
 }
 
 type Shops interface {
-	AddNewShop(params *models.Shop) error
+	AddNewShop(params *models.Shop) (*models.Shop, error)
 	UpdateShopParams(params *models.Shop) error
 	GetAllShops(limit, offset int, search string) ([]*models.Shop, error)
 	GetShop(shopId int) (*models.Shop, error)
 	DeleteShop(shopId int) error
 }
 type Suppliers interface {
-	AddNewSupplier(params *models.Supplier) error
+	AddNewSupplier(params *models.Supplier) (*models.Supplier, error)
 	UpdateSupplierParams(params *models.Supplier) error
 	GetAllSuppliers(limit, offset int, search string) ([]*models.Supplier, error)
 	GetSupplier(supplierId int) (*models.Supplier, error)

@@ -13,7 +13,7 @@ func NewShopService(db database.Shops) *ShopService {
 	return &ShopService{db: db}
 }
 
-func (s *ShopService) AddNewShop(params *models.Shop) error {
+func (s *ShopService) AddNewShop(params *models.Shop) (*models.Shop, error) {
 	return s.db.AddNewShop(params)
 }
 

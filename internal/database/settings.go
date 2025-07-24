@@ -14,9 +14,9 @@ func NewSettingsDb(connection *gorm.DB) *SettingsDb {
 	return &SettingsDb{conn: connection}
 }
 
-func (s *SettingsDb) AddBrand(params *models.Brand) error {
+func (s *SettingsDb) AddBrand(params *models.Brand) (*models.Brand, error) {
 	err := s.conn.Table("brands").Create(&params).Error
-	return err
+	return params, err
 }
 
 func (s *SettingsDb) GetAllBrands(limit, offset int, search string) ([]*models.Brand, error) {
@@ -41,8 +41,8 @@ func (s *SettingsDb) DeleteBrand(brandId int) error {
 	}).Error
 }
 
-func (s *SettingsDb) AddNewCategory(category *models.Category) error {
-	return s.conn.Table("categories").Create(&category).Error
+func (s *SettingsDb) AddNewCategory(category *models.Category) (*models.Category, error) {
+	return category, s.conn.Table("categories").Create(&category).Error
 }
 func (s *SettingsDb) GetAllCategories(limit, offset int, search string) (result []*models.Category, err error) {
 	tx := s.conn.Table("categories").Where("status", 1)
@@ -63,8 +63,8 @@ func (s *SettingsDb) DeleteCategory(categoryId int) error {
 	}).Error
 }
 
-func (s *SettingsDb) AddNewCity(city *models.City) error {
-	return s.conn.Table("cities").Create(&city).Error
+func (s *SettingsDb) AddNewCity(city *models.City) (*models.City, error) {
+	return city, s.conn.Table("cities").Create(&city).Error
 }
 func (s *SettingsDb) GetAllCities(limit, offset int) (result []*models.City, err error) {
 	err = s.conn.Table("cities").Where("status", 1).Limit(limit).Offset(offset).Find(&result).Error
@@ -80,8 +80,8 @@ func (s *SettingsDb) DeleteCity(cityId int) error {
 	}).Error
 }
 
-func (s *SettingsDb) AddNewPromotion(promotion *models.Promotion) error {
-	return s.conn.Table("promotions").Create(&promotion).Error
+func (s *SettingsDb) AddNewPromotion(promotion *models.Promotion) (*models.Promotion, error) {
+	return promotion, s.conn.Table("promotions").Create(&promotion).Error
 }
 func (s *SettingsDb) GetAllPromotions(limit, offset int) (result []*models.Promotion, err error) {
 	err = s.conn.Table("promotions").Where("status", 1).Limit(limit).Offset(offset).Find(&result).Error
@@ -102,7 +102,7 @@ func (s *SettingsDb) DeletePromotion(promotionId int) error {
 	}).Error
 }
 
-func (s *SettingsDb) AddNewRole(role *models.RoleInput) error {
+func (s *SettingsDb) AddNewRole(role *models.RoleInput) (*models.Role, error) {
 	var (
 		roleParams     *models.Role
 		rolePermission []*models.RolePermission
@@ -112,7 +112,7 @@ func (s *SettingsDb) AddNewRole(role *models.RoleInput) error {
 	err := tx.Table("roles").Create(&roleParams).Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return nil, err
 	}
 	for _, value := range role.Permissions {
 		var param *models.RolePermission
@@ -123,14 +123,14 @@ func (s *SettingsDb) AddNewRole(role *models.RoleInput) error {
 	err = tx.Table("role_permission").Create(&rolePermission).Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return nil, err
 	}
 	err = tx.Commit().Error
 	if err != nil {
 		tx.Rollback()
-		return err
+		return nil, err
 	}
-	return nil
+	return roleParams, nil
 }
 func (s *SettingsDb) GetAllRoles(limit, offset int) (result []*models.Role, err error) {
 	err = s.conn.Table("roles").Where("status", 1).Limit(limit).Offset(offset).Find(&result).Error

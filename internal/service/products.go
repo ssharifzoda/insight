@@ -16,14 +16,14 @@ func NewProductService(db database.Products) *ProductService {
 	return &ProductService{db: db}
 }
 
-func (p *ProductService) AddNewProduct(product *models.Product) error {
+func (p *ProductService) AddNewProduct(product *models.Product) (*models.Product, error) {
 	path := consts.GlobalLogoFilePath + product.Name + time.Now().Format(time.DateOnly)
 	err := utils.SaveImageFromBase64(product.Image, path)
 	if err != nil {
 		return err
 	}
 	product.Image = path
-	return p.db.AddNewProduct(product)
+	return product, p.db.AddNewProduct(product)
 }
 
 func (p *ProductService) GetAllProducts(page, limit int, filter *models.ProductFilter) ([]*models.Product, error) {

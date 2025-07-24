@@ -14,8 +14,8 @@ func NewSupplierDb(conn *gorm.DB) *SupplierDb {
 	return &SupplierDb{conn: conn}
 }
 
-func (s *SupplierDb) AddNewSupplier(params *models.Supplier) error {
-	return s.conn.Table("suppliers").Create(&params).Error
+func (s *SupplierDb) AddNewSupplier(params *models.Supplier) (*models.Supplier, error) {
+	return params, s.conn.Table("suppliers").Create(&params).Error
 }
 
 func (s *SupplierDb) UpdateSupplierParams(params *models.Supplier) error {

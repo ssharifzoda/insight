@@ -32,14 +32,14 @@ func (h *Handler) addNewProduct(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	err = h.service.Products.AddNewProduct(params)
+	product, err := h.service.Products.AddNewProduct(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
 
-	utils.Response(w, consts.Success)
+	utils.Response(w, product)
 }
 
 // @Summary editProduct

@@ -18,5 +18,6 @@ const (
 	RepeatSignIn               = "Нужно заново сделать вход в систему"
 	InternalServerError        = "внутренняя ошибка сервера"
 	Success                    = "Успешно"
+	FileValidateResp           = "Укажите название файла"
 	AccessDenied               = "Недостаточно прав. Обратитесь к администратору"
 )

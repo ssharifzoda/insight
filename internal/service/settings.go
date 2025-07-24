@@ -16,11 +16,11 @@ func NewSettingService(db database.Setting) *SettingService {
 	return &SettingService{db: db}
 }
 
-func (s *SettingService) AddBrand(params *models.Brand) error {
+func (s *SettingService) AddBrand(params *models.Brand) (*models.Brand, error) {
 	path := consts.GlobalLogoFilePath + params.Name + time.Now().Format(time.DateOnly)
 	err := utils.SaveImageFromBase64(params.Logo, path)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	params.Logo = path
 	return s.db.AddBrand(params)
@@ -39,7 +39,7 @@ func (s *SettingService) DeleteBrand(brandId int) error {
 	return s.db.DeleteBrand(brandId)
 }
 
-func (s *SettingService) AddNewCategory(category *models.Category) error {
+func (s *SettingService) AddNewCategory(category *models.Category) (*models.Category, error) {
 	return s.db.AddNewCategory(category)
 }
 func (s *SettingService) GetAllCategories(page, limit int, search string) (result []*models.Category, err error) {
@@ -53,7 +53,7 @@ func (s *SettingService) DeleteCategory(categoryId int) error {
 	return s.db.DeleteCategory(categoryId)
 }
 
-func (s *SettingService) AddNewCity(city *models.City) error {
+func (s *SettingService) AddNewCity(city *models.City) (*models.City, error) {
 	return s.db.AddNewCity(city)
 }
 func (s *SettingService) GetAllCities(page, limit int) (result []*models.City, err error) {
@@ -66,7 +66,7 @@ func (s *SettingService) EditCity(city *models.City) error {
 func (s *SettingService) DeleteCity(cityId int) error {
 	return s.db.DeleteCity(cityId)
 }
-func (s *SettingService) AddNewPromotion(promotion *models.Promotion) error {
+func (s *SettingService) AddNewPromotion(promotion *models.Promotion) (*models.Promotion, error) {
 	return s.db.AddNewPromotion(promotion)
 }
 func (s *SettingService) GetAllPromotions(page, limit int) (result []*models.Promotion, err error) {
@@ -84,7 +84,7 @@ func (s *SettingService) DeletePromotion(promotionId int) error {
 	return s.db.DeletePromotion(promotionId)
 }
 
-func (s *SettingService) AddNewRole(role *models.RoleInput) error {
+func (s *SettingService) AddNewRole(role *models.RoleInput) (*models.Role, error) {
 	return s.db.AddNewRole(role)
 }
 func (s *SettingService) GetAllRoles(page, limit int) (result []*models.Role, err error) {

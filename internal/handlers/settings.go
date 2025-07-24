@@ -34,13 +34,13 @@ func (h *Handler) addBrand(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	err = h.service.Settings.AddBrand(params)
+	brand, err := h.service.Settings.AddBrand(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, consts.Success)
+	utils.Response(w, brand)
 }
 
 // @Summary getAllBrands
@@ -164,13 +164,13 @@ func (h *Handler) addNewCategory(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	err = h.service.AddNewCategory(params)
+	category, err := h.service.AddNewCategory(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, consts.Success)
+	utils.Response(w, category)
 }
 
 // @Summary getAllCategories
@@ -294,13 +294,13 @@ func (h *Handler) addNewCity(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	err = h.service.AddNewCity(params)
+	city, err := h.service.AddNewCity(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, consts.Success)
+	utils.Response(w, city)
 }
 
 // @Summary getAllCities
@@ -422,13 +422,13 @@ func (h *Handler) addNewPromotion(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	err = h.service.AddNewPromotion(params)
+	promotion, err := h.service.AddNewPromotion(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, consts.Success)
+	utils.Response(w, promotion)
 }
 
 // @Summary getAllPromotions
@@ -580,13 +580,13 @@ func (h *Handler) addNewRole(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
-	err = h.service.AddNewRole(params)
+	role, err := h.service.AddNewRole(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	utils.Response(w, consts.Success)
+	utils.Response(w, role)
 }
 
 // @Summary getAllRoles

@@ -14,8 +14,8 @@ func NewProductDb(conn *gorm.DB) *ProductDb {
 	return &ProductDb{conn: conn}
 }
 
-func (p *ProductDb) AddNewProduct(product *models.Product) error {
-	return p.conn.Table("products").Create(&product).Error
+func (p *ProductDb) AddNewProduct(product *models.Product) (*models.Product, error) {
+	return product, p.conn.Table("products").Create(&product).Error
 }
 
 func (p *ProductDb) GetAllProducts(limit, offset int, filter *models.ProductFilter) (result []*models.Product, err error) {

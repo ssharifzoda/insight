@@ -14,8 +14,8 @@ func NewShopDb(conn *gorm.DB) *ShopDb {
 	return &ShopDb{conn: conn}
 }
 
-func (s *ShopDb) AddNewShop(params *models.Shop) error {
-	return s.conn.Table("shops").Create(&params).Error
+func (s *ShopDb) AddNewShop(params *models.Shop) (*models.Shop, error) {
+	return params, s.conn.Table("shops").Create(&params).Error
 }
 
 func (s *ShopDb) UpdateShopParams(params *models.Shop) error {
