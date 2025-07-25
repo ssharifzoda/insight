@@ -42,7 +42,7 @@ func (s *ShopDb) GetShop(shopId int) (*models.Shop, error) {
 
 func (s *ShopDb) DeleteShop(shopId int) error {
 	return s.conn.Table("shops").Where("id", shopId).UpdateColumns(map[string]interface{}{
-		"active":     0,
+		"status":     0,
 		"deleted_at": time.Now(),
 	}).Error
 }
