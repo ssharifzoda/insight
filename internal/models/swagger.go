@@ -11,17 +11,16 @@ type UserSW struct {
 }
 
 type ShopSW struct {
-	Id          int         `json:"id"`
-	Fullname    string      `json:"fullname"`
-	Address     string      `json:"address"`
-	CityId      interface{} `json:"city_id"`
-	UserId      int         `json:"user_id"`
-	About       string      `json:"about"`
-	Email       string      `json:"email"`
-	TIN         string      `json:"TIN"`
-	CompanyName string      `json:"company_name"`
-	CompanyLogo string      `json:"company_logo"`
-	LegalEntity string      `json:"legal_entity"`
+	Id          int    `json:"id"`
+	Fullname    string `json:"fullname"`
+	Address     string `json:"address"`
+	CityId      int    `json:"city_id"`
+	About       string `json:"about"`
+	Email       string `json:"email"`
+	TIN         string `json:"TIN"`
+	CompanyName string `json:"company_name"`
+	CompanyLogo string `json:"company_logo"`
+	LegalEntity string `json:"legal_entity"`
 }
 
 type ReportUpdate struct {

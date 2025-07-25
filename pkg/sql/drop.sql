@@ -6,3 +6,8 @@ alter table notifications
 
 alter table notifications
     drop column supplier_id;
+
+alter table shops
+    drop column password;
+alter table shops
+    drop column phone;

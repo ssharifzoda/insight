@@ -7,12 +7,12 @@ values ('Магазин'),
        ('Поставщик');
 
 
-insert into users(full_name, phone, email, role_id, position, password)
-select fullname, phone, email, 4, 'Магазин', password
+insert into users(full_name, phone, email, role_id, position, password, shop_id)
+select fullname, phone, email, (select id from roles where name = 'Магазин'), 'Магазин', password, id
 from shops;
 
-insert into users(full_name, phone, email, role_id, position, password)
-select fullname, phone, email, 5, 'Поставщик', password
+insert into users(full_name, phone, email, role_id, position, password, supplier_id)
+select fullname, phone, email, , (select id from roles where name = 'Поставщик'),'Поставщик', password, id
 from suppliers;
 
 insert into user_auth(user_id)

@@ -3524,7 +3524,9 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
-                "city_id": {},
+                "city_id": {
+                    "type": "integer"
+                },
                 "company_logo": {
                     "type": "string"
                 },
@@ -3542,9 +3544,6 @@ const docTemplate = `{
                 },
                 "legal_entity": {
                     "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
                 }
             }
         },
@@ -3571,9 +3570,7 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
-                "city_id": {
-                    "type": "integer"
-                },
+                "city_id": {},
                 "company_logo": {
                     "type": "string"
                 },
@@ -3615,9 +3612,6 @@ const docTemplate = `{
                 },
                 "updated_at": {
                     "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
                 },
                 "vacation_at": {
                     "type": "string"

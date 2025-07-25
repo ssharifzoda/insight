@@ -28,6 +28,8 @@ create table users(
     role_id bigint unsigned references roles(id),
     position text,
     password text not null,
+    shop_id bigint,
+    supplier_id bigint,
     active smallint default 1,
     created_at timestamp default current_timestamp,
     updated_at timestamp,
@@ -56,18 +58,15 @@ create table user_auth(
 alter table sale_point_supplier
     change sale_point_id sale_point_type bigint unsigned not null;
 
-alter table shops
-    add user_id bigint unsigned;
-alter table shops
-    add constraint shops_user_id___fk
-        foreign key (user_id) references users (id);
-
-alter table suppliers
-    add user_id bigint unsigned null;
-
-alter table suppliers
-    add constraint suppliers_user_id___fk
-        foreign key (user_id) references users (id);
-
 alter table notifications
     add status smallint default 1;
+
+create table users_shop(
+                           user_id bigint references users(id),
+                           shop_id bigint references shops(id)
+);
+
+create table users_supplier(
+                               user_id bigint references users(id),
+                               supplier_id bigint references suppliers(id)
+);

@@ -182,7 +182,8 @@ definitions:
         type: string
       address:
         type: string
-      city_id: {}
+      city_id:
+        type: integer
       company_logo:
         type: string
       company_name:
@@ -195,8 +196,6 @@ definitions:
         type: integer
       legal_entity:
         type: string
-      user_id:
-        type: integer
     type: object
   models.SingIn:
     properties:
@@ -213,8 +212,7 @@ definitions:
         type: string
       address:
         type: string
-      city_id:
-        type: integer
+      city_id: {}
       company_logo:
         type: string
       company_name:
@@ -243,8 +241,6 @@ definitions:
         type: string
       updated_at:
         type: string
-      user_id:
-        type: integer
       vacation_at:
         type: string
     type: object
