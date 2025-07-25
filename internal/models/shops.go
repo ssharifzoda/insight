@@ -7,6 +7,7 @@ type Shop struct {
 	Fullname    string      `json:"fullname"`
 	Address     string      `json:"address"`
 	CityId      interface{} `json:"city_id" gorm:"type:int"`
+	Phone       string      `json:"phone"`
 	About       string      `json:"about"`
 	Email       string      `json:"email"`
 	TIN         string      `json:"TIN"`

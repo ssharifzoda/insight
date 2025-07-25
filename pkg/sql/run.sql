@@ -101,3 +101,6 @@ alter table shops
 
 alter table suppliers drop column password;
 
+
+
+

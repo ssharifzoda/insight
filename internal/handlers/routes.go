@@ -32,6 +32,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	authGr.HandleFunc("/change-password", h.changePassword).Methods(http.MethodPut, http.MethodOptions)
 	authGr.HandleFunc("/refresh-token", h.refreshToken).Methods(http.MethodPost, http.MethodOptions)
 	authGr.HandleFunc("/log-out", h.logoutHandler).Methods(http.MethodPut, http.MethodOptions)
+	authGr.HandleFunc("/registration", h.addNewShop).Methods(http.MethodPost, http.MethodOptions)
 	//Console
 	//consoleGr := router.PathPrefix("/home")
 	//Workers
@@ -48,7 +49,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	shopGr.HandleFunc("/new", h.addNewShop).Methods(http.MethodPost, http.MethodOptions)
 	shopGr.HandleFunc("/list", h.getAllShops).
 		Queries("page", "{page}").Queries("limit", "{limit}").Methods(http.MethodGet, http.MethodOptions)
-	shopGr.HandleFunc("/by-id", h.getShop).Methods(http.MethodGet, http.MethodOptions)
+	shopGr.HandleFunc("/by-id", h.getShop).Queries("id", "{id}").Methods(http.MethodGet, http.MethodOptions)
 	shopGr.HandleFunc("/rm", h.deleteShop).Methods(http.MethodDelete, http.MethodOptions)
 	shopGr.HandleFunc("/edit", h.editShop).Methods(http.MethodPut, http.MethodOptions)
 	//Supplier

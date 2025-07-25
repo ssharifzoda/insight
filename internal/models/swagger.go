@@ -14,6 +14,7 @@ type ShopSW struct {
 	Id          int    `json:"id"`
 	Fullname    string `json:"fullname"`
 	Address     string `json:"address"`
+	Phone       string `json:"phone"`
 	CityId      int    `json:"city_id"`
 	About       string `json:"about"`
 	Email       string `json:"email"`

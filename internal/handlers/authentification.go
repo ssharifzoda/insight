@@ -231,3 +231,34 @@ func (h *Handler) logoutHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	utils.Response(w, consts.Success)
 }
+
+// @Summary registration
+// @Tags Auth
+// @Description Добавление нового магазина из приложения
+// @ID registration
+// @Accept json
+// @Produce json
+// @Param params body models.ShopSW true "Введите данные"
+// @Success 200 {object} utils.DataResponse
+// @Failure 500 {object} utils.DataResponse
+// @Failure 400 {object} utils.DataResponse
+// @Failure default {object} utils.DataResponse
+// @Router /auth/registration [post]
+func (h *Handler) registration(w http.ResponseWriter, r *http.Request) {
+	var params *models.Shop
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
+		return
+	}
+	params.Status = 3
+	shop, err := h.service.AddNewShop(params)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+
+	utils.Response(w, shop)
+}

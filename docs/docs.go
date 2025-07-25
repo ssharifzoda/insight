@@ -217,6 +217,59 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/registration": {
+            "post": {
+                "description": "Добавление нового магазина из приложения",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "registration",
+                "operationId": "registration",
+                "parameters": [
+                    {
+                        "description": "Введите данные",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ShopSW"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.DataResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.DataResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.DataResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/utils.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/notifications/by-id": {
             "get": {
                 "security": [
@@ -3603,6 +3656,9 @@ const docTemplate = `{
                 },
                 "order_number": {
                     "type": "integer"
+                },
+                "phone": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "integer"

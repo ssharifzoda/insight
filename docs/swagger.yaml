@@ -235,6 +235,8 @@ definitions:
         type: integer
       order_number:
         type: integer
+      phone:
+        type: string
       status:
         type: integer
       supply_dates:
@@ -402,6 +404,41 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: refreshToken
+      tags:
+      - Auth
+  /auth/registration:
+    post:
+      consumes:
+      - application/json
+      description: Добавление нового магазина из приложения
+      operationId: registration
+      parameters:
+      - description: Введите данные
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/models.ShopSW'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/utils.DataResponse'
+      summary: registration
       tags:
       - Auth
   /notifications/by-id:

@@ -63,11 +63,32 @@ func (h *Handler) editShop(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InvalidRequestData, 400, 0)
 		return
 	}
+	oldShop, err := h.service.Shops.GetShop(params.Id)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
 	err = h.service.UpdateShopParams(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
+	}
+	if oldShop.Status == 3 && params.Status == 1 {
+		var user models.User
+		user.RoleId = consts.ShopRoleId
+		user.FullName = params.Fullname
+		user.Phone = params.Phone
+		user.Email = params.Email
+		user.ShopId = params.Id
+		resp, err := h.service.Users.AddNewUser(&user)
+		if err != nil {
+			h.logger.Error(err)
+			utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+			return
+		}
+		utils.Response(w, resp)
 	}
 	utils.Response(w, consts.Success)
 }
