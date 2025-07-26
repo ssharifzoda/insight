@@ -196,6 +196,8 @@ definitions:
         type: integer
       legal_entity:
         type: string
+      phone:
+        type: string
     type: object
   models.SingIn:
     properties:

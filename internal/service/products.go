@@ -5,7 +5,6 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
-	"time"
 )
 
 type ProductService struct {
@@ -17,12 +16,13 @@ func NewProductService(db database.Products) *ProductService {
 }
 
 func (p *ProductService) AddNewProduct(product *models.Product) (*models.Product, error) {
-	path := consts.GlobalLogoFilePath + product.Name + time.Now().Format(time.DateOnly)
-	err := utils.SaveImageFromBase64(product.Image, path)
+	path := consts.GlobalFilePath
+	filename := utils.FilePathGen("")
+	err := utils.SaveImageFromBase64(product.Image, path+filename)
 	if err != nil {
 		return nil, err
 	}
-	product.Image = path
+	product.Image = filename
 	return p.db.AddNewProduct(product)
 }
 
@@ -35,7 +35,7 @@ func (p *ProductService) GetProductById(productId int) (*models.Product, error) 
 	if err != nil {
 		return nil, err
 	}
-	product.Image, err = utils.ConvertImageToBase64(consts.GlobalLogoFilePath, product.Image)
+	product.Image, err = utils.ConvertImageToBase64(consts.GlobalFilePath, product.Image)
 	if err != nil {
 		return nil, err
 	}
@@ -47,16 +47,17 @@ func (p *ProductService) EditProduct(product *models.Product) error {
 	if err != nil {
 		return err
 	}
-	err = utils.RemoveFile(consts.GlobalLogoFilePath, item.Image)
+	err = utils.RemoveFile(consts.GlobalFilePath, item.Image)
 	if err != nil {
 		return err
 	}
-	path := consts.GlobalLogoFilePath + product.Name + time.Now().Format(time.DateOnly)
-	err = utils.SaveImageFromBase64(product.Image, path)
+	path := consts.GlobalFilePath
+	filename := utils.FilePathGen("")
+	err = utils.SaveImageFromBase64(product.Image, path+filename)
 	if err != nil {
 		return err
 	}
-	product.Image = path
+	product.Image = filename
 	return p.db.EditProduct(product)
 }
 
@@ -65,7 +66,7 @@ func (p *ProductService) DeleteProduct(productId int) error {
 	if err != nil {
 		return err
 	}
-	err = utils.RemoveFile(consts.GlobalLogoFilePath, item.Image)
+	err = utils.RemoveFile(consts.GlobalFilePath, item.Image)
 	if err != nil {
 		return err
 	}

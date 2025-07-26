@@ -33,7 +33,7 @@ create table role_permission(
 create table users(
                       id serial primary key,
                       full_name text,
-                      phone text not null,
+                      phone varchar(20),
                       email text,
                       role_id bigint unsigned references roles(id),
                       position text,

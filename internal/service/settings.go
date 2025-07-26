@@ -5,7 +5,6 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
-	"time"
 )
 
 type SettingService struct {
@@ -17,8 +16,9 @@ func NewSettingService(db database.Setting) *SettingService {
 }
 
 func (s *SettingService) AddBrand(params *models.Brand) (*models.Brand, error) {
-	path := consts.GlobalLogoFilePath + params.Name + time.Now().Format(time.DateOnly)
-	err := utils.SaveImageFromBase64(params.Logo, path)
+	path := consts.GlobalFilePath
+	filename := utils.FilePathGen("")
+	err := utils.SaveImageFromBase64(params.Logo, path+filename)
 	if err != nil {
 		return nil, err
 	}
@@ -32,6 +32,7 @@ func (s *SettingService) GetAllBrands(page, limit int, search string) ([]*models
 }
 
 func (s *SettingService) EditBrand(brand *models.Brand) error {
+	//todo: work to files
 	return s.db.EditBrand(brand)
 }
 

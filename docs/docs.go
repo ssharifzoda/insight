@@ -3597,6 +3597,9 @@ const docTemplate = `{
                 },
                 "legal_entity": {
                     "type": "string"
+                },
+                "phone": {
+                    "type": "string"
                 }
             }
         },

@@ -38,8 +38,23 @@ func (h *Handler) addNewSupplier(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-
-	utils.Response(w, supplier)
+	var user models.User
+	user.Phone = supplier.Phone
+	user.SupplierId = supplier.Id
+	user.RoleId = consts.SupplierRoleId
+	user.FullName = supplier.Fullname
+	user.Active = 1
+	resp, err := h.service.Users.AddNewUser(&user)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+	utils.Response(w, map[string]interface{}{
+		"supplier": supplier,
+		"login":    resp.Phone,
+		"password": resp.Password,
+	})
 }
 
 // @Summary editSupplier

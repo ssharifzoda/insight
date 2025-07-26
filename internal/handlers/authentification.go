@@ -56,11 +56,6 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.UsernameOrPasswordWrong, 400, 0)
 		return
 	}
-	if userAuth.TemporaryPass == 1 {
-		h.logger.Error(consts.TemporaryPassResponse)
-		utils.ErrorResponse(w, consts.TemporaryPassResponse, 451, 0)
-		return
-	}
 	sessionId, err := uuid.NewUUID()
 	if err != nil {
 		h.logger.Error(err)
@@ -85,6 +80,16 @@ func (h *Handler) loginHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+	if userAuth.TemporaryPass == 1 {
+		utils.Response(w, map[string]interface{}{
+			"description":   consts.TemporaryPassResponse,
+			"user_id":       user.Id,
+			"access_token":  accessToken,
+			"refresh_token": refreshToken,
+			"role":          user.RoleId,
+		})
 		return
 	}
 	utils.Response(w, map[string]interface{}{
@@ -183,7 +188,14 @@ func (h *Handler) changePassword(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 		return
 	}
-	if user.Password != request.OldPassword {
+	oldPass, err := utils.DeHash(user.Password)
+	if err != nil {
+		h.logger.Error(err)
+		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
+		return
+	}
+
+	if oldPass != request.OldPassword {
 		h.logger.Error(consts.UsernameOrPasswordWrong)
 		utils.ErrorResponse(w, consts.UsernameOrPasswordWrong, 400, 0)
 		return
@@ -253,7 +265,7 @@ func (h *Handler) registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params.Status = 3
-	shop, err := h.service.AddNewShop(params)
+	shop, err := h.service.Shops.AddNewShop(params)
 	if err != nil {
 		h.logger.Error(err)
 		utils.ErrorResponse(w, consts.InternalServerError, 500, 0)

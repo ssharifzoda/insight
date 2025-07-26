@@ -82,13 +82,18 @@ func (h *Handler) editShop(w http.ResponseWriter, r *http.Request) {
 		user.Phone = params.Phone
 		user.Email = params.Email
 		user.ShopId = params.Id
+		user.Active = 1
 		resp, err := h.service.Users.AddNewUser(&user)
 		if err != nil {
 			h.logger.Error(err)
 			utils.ErrorResponse(w, consts.InternalServerError, 500, 0)
 			return
 		}
-		utils.Response(w, resp)
+		utils.Response(w, map[string]interface{}{
+			"shop":     params,
+			"login":    resp.Phone,
+			"password": resp.Password,
+		})
 	}
 	utils.Response(w, consts.Success)
 }

@@ -32,7 +32,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	authGr.HandleFunc("/change-password", h.changePassword).Methods(http.MethodPut, http.MethodOptions)
 	authGr.HandleFunc("/refresh-token", h.refreshToken).Methods(http.MethodPost, http.MethodOptions)
 	authGr.HandleFunc("/log-out", h.logoutHandler).Methods(http.MethodPut, http.MethodOptions)
-	authGr.HandleFunc("/registration", h.addNewShop).Methods(http.MethodPost, http.MethodOptions)
+	authGr.HandleFunc("/registration", h.registration).Methods(http.MethodPost, http.MethodOptions)
 	//Console
 	//consoleGr := router.PathPrefix("/home")
 	//Workers

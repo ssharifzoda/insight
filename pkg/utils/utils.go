@@ -5,12 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/viper"
+	"insight/pkg/consts"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type DataResponse struct {
@@ -98,4 +100,13 @@ func RemoveFile(dir, filename string) error {
 		return err
 	}
 	return nil
+}
+
+func FilePathGen(fileType string) string {
+	switch fileType {
+	case "notification":
+		return fmt.Sprintf("media/%v/%v/%s%v.jpeg", time.Now().Year(), time.Now().Month(), consts.NotificationPrefix, time.Now().UnixMicro())
+	default:
+		return fmt.Sprintf("media/%v/%v/%v.jpeg", time.Now().Year(), time.Now().Month(), time.Now().UnixMicro())
+	}
 }

@@ -6,7 +6,6 @@ import (
 	"insight/internal/models"
 	"insight/pkg/consts"
 	"insight/pkg/utils"
-	"time"
 )
 
 type NotificationService struct {
@@ -19,8 +18,8 @@ func NewNotificationService(db database.Notifications, firebaseConn *messaging.C
 }
 
 func (n *NotificationService) CreateNewNotification(message *models.NotificationInput) error {
-	path := consts.GlobalNotifyImagePath
-	fileName := consts.NotificationPrefix + time.Now().Format("2006-01-02T15-04-05-0700") + consts.JPEG
+	path := consts.GlobalFilePath
+	fileName := utils.FilePathGen("notification")
 	err := utils.SaveImageFromBase64(message.Image, path+fileName)
 	if err != nil {
 		return err
@@ -48,7 +47,7 @@ func (n *NotificationService) GetNotificationById(notificationId int) (*models.N
 	if err != nil {
 		return nil, err
 	}
-	notification.Image, err = utils.ConvertImageToBase64(consts.GlobalNotifyImagePath, notification.Image)
+	notification.Image, err = utils.ConvertImageToBase64(consts.GlobalFilePath, notification.Image)
 	if err != nil {
 		return nil, err
 	}
