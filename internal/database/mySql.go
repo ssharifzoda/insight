@@ -29,7 +29,7 @@ func NewMySqlGorm() (*gorm.DB, error) {
 		log.Printf("❌ MySQL -> Open error: %s", err.Error())
 		return nil, err
 	}
-	SqlRunner(conn)
+	//SqlRunner(conn)
 	log.Println("✅ MySQL Connection success:", Host)
 	return conn, nil
 }
